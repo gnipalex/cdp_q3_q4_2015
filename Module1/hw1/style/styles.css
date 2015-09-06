@@ -9,3 +9,13 @@ img {
 h1 {
 	color: green;
 }
+table td {
+	background-color: yellow;
+	text-align: center;
+}
+table td + td {
+	background-color: yellow;
+	padding-left: 20px; 
+	text-align: left;
+	vertical-align: top;
+}
