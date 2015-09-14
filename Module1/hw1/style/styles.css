@@ -3,10 +3,12 @@ body {
 	font-size: 15px;
 	color: brown;
 	text-align: right;
+	background-color: rgba(0, 0, 255, 0.15);
 }
 .wraper {
 	width:1000px;
 	margin: 0 auto;
+	background-color: rgba(0, 66, 100, 0.05);
 }
 img {
 	border: 2px solid black; 
