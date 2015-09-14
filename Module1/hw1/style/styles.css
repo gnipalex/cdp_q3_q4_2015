@@ -12,6 +12,7 @@ h1 {
 table td {
 	background-color: yellow;
 	text-align: center;
+	padding: 10px;
 }
 table td + td {
 	background-color: yellow;
