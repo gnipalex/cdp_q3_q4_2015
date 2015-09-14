@@ -1,0 +1,13 @@
+During last weeks I’ve been watching videos from previous cdp program. I found that I have gaps in some topics.
+Here is the list of topics I would like to refresh/learn deeper :
+•	Tdd/clean code
+•	Java core
+•	Java script
+•	Spring framework (IOC + MVC)
+•	Continuous integration (jenkins)
+•	Build tools (ant, maven)
+•	ORM
+•	Web services
+•	Frontend developing (html + css + js) 
+I’m facing with these technologies on my current project. Hope that CDP program will help me with it.
+
