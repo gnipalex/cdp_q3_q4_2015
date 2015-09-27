@@ -15,11 +15,11 @@ public class MicroBenchmark {
     public static void main(String[] args) throws IOException {
         List<String> words = loadWords();
         test("Task 1, java 7, serial ", () -> Tasks.task1Java7(words));
-//        test("Task 1, java 8, serial ", () -> Tasks.task1Java8(words, false));
-//        test("Task 1, java 8, parallel ", () -> Tasks.task1Java8(words, true));
-//        test("Task 2, java 7, serial ", () -> Tasks.task2Java7(words));
-//        test("Task 2, java 8, serial ", () -> Tasks.task2Java8(words, false));
-//        test("Task 1, java 8, parallel ", () -> Tasks.task2Java8(words, true));
+        test("Task 1, java 8, serial ", () -> Tasks.task1Java8(words, false));
+        test("Task 1, java 8, parallel ", () -> Tasks.task1Java8(words, true));
+        test("Task 2, java 7, serial ", () -> Tasks.task2Java7(words));
+        test("Task 2, java 8, serial ", () -> Tasks.task2Java8(words, false));
+        test("Task 2, java 8, parallel ", () -> Tasks.task2Java8(words, true));
         //NOTE: as this is a microbenchmark, please run tests separately.
     }
 

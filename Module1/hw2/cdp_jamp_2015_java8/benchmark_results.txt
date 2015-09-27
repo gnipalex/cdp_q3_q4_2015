@@ -1,0 +1,33 @@
+PC: Pentium T4500 (dual core), 3GB RAM
+
+Task 1, java 7, serial : time - 350764578
+Task 1, java 7, serial : time - 318867030
+Task 1, java 7, serial : time - 316722881
+Task 1, java 7, serial : time - 292111152
+Task 1, java 7, serial : time - 314887145
+Task 1, java 8, serial : time - 330435342
+Task 1, java 8, serial : time - 428019515
+Task 1, java 8, serial : time - 406680243
+Task 1, java 8, serial : time - 327136549
+Task 1, java 8, serial : time - 300640432
+Task 1, java 8, parallel : time - 206572858
+Task 1, java 8, parallel : time - 174717264
+Task 1, java 8, parallel : time - 199097351
+Task 1, java 8, parallel : time - 165431907
+Task 1, java 8, parallel : time - 188841236
+Task 2, java 7, serial : time - 303457193
+Task 2, java 7, serial : time - 316804113
+Task 2, java 7, serial : time - 287571574
+Task 2, java 7, serial : time - 310668922
+Task 2, java 7, serial : time - 280466071
+Task 2, java 8, serial : time - 346774873
+Task 2, java 8, serial : time - 309788767
+Task 2, java 8, serial : time - 331701567
+Task 2, java 8, serial : time - 312691669
+Task 2, java 8, serial : time - 332227785
+Task 2, java 8, parallel : time - 254195795
+Task 2, java 8, parallel : time - 271606509
+Task 2, java 8, parallel : time - 230815923
+Task 2, java 8, parallel : time - 277484170
+Task 2, java 8, parallel : time - 243563874
+ 
