@@ -1,0 +1,21 @@
+1) http://www.tutorialspoint.com/maven/maven_build_life_cycle.htm
+2) generate project structure
+mvn archetype:generate 
+-DgroupId=com.epam.cdp.hnyp 
+-DartifactId=mvn-sample-app 
+-DarchetypeArtifactId=maven-archetype-quickstart
+-DinteractiveMode=false
+2.2)
+mvn compile
+mvn test
+mvn install
+mvn clean
+3) generate web app project structure
+mvn archetype:generate 
+-DgroupId=com.epam.cdp.web 
+-DartifactId=mvn-sample-web-app
+-DarchetypeArtifactId=maven-archetype-webapp 
+-DinteractiveMode=false
+4) calculator app
+
+
