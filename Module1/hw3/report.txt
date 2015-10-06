@@ -17,5 +17,5 @@ mvn archetype:generate
 -DarchetypeArtifactId=maven-archetype-webapp 
 -DinteractiveMode=false
 4) calculator app
-
-
+5) how to run class with exec plugin
+mvn exec:java -Dexec.mainClass="com.epam.cdp.hnyp.App"
