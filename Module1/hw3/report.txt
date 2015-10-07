@@ -10,12 +10,84 @@ mvn compile
 mvn test
 mvn install
 mvn clean
+
 3) generate web app project structure
 mvn archetype:generate 
 -DgroupId=com.epam.cdp.web 
 -DartifactId=mvn-sample-web-app
 -DarchetypeArtifactId=maven-archetype-webapp 
 -DinteractiveMode=false
+
 4) calculator app
+
 5) how to run class with exec plugin
 mvn exec:java -Dexec.mainClass="com.epam.cdp.hnyp.App"
+or also we can configure plugin in pom.xml (added)
+
+6) how to pass some params while executing class with mvn
+mvn exec:java -Dexec.mainClass="com.epam.cdp.hnyp.App" -Dexec.args="4 2 *"
+look item 5
+
+7) junit tests 
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.epam.cdp.hnyp.AppTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec - in c
+om.epam.cdp.hnyp.AppTest
+Running com.epam.cdp.hnyp.calculator.factory.impl.SimpleCalculatorFactoryTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in c
+om.epam.cdp.hnyp.calculator.factory.impl.SimpleCalculatorFactoryTest
+Running com.epam.cdp.hnyp.calculator.impl.SimpleCalculatorTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in c
+om.epam.cdp.hnyp.calculator.impl.SimpleCalculatorTest
+Running com.epam.cdp.hnyp.calculator.operator.impl.DivOperatorTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.e
+pam.cdp.hnyp.calculator.operator.impl.DivOperatorTest
+Running com.epam.cdp.hnyp.calculator.operator.impl.MulOperatorTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.e
+pam.cdp.hnyp.calculator.operator.impl.MulOperatorTest
+Running com.epam.cdp.hnyp.calculator.operator.impl.SubOperatorTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in c
+om.epam.cdp.hnyp.calculator.operator.impl.SubOperatorTest
+Running com.epam.cdp.hnyp.calculator.operator.impl.SumOperatorTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.e
+pam.cdp.hnyp.calculator.operator.impl.SumOperatorTest
+
+Results :
+
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 4.490 s
+[INFO] Finished at: 2015-10-07T23:28:33+03:00
+[INFO] Final Memory: 7M/17M
+[INFO] ------------------------------------------------------------------------
+
+8) testng tests
+all tests were run
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running TestSuite
+Configuring TestNG with: TestNG652Configurator
+Configuring TestNG with: TestNG652Configurator
+Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.32 sec - in T
+estSuite
+
+Results :
+
+Tests run: 21, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5.560 s
+[INFO] Finished at: 2015-10-07T23:26:29+03:00
+[INFO] Final Memory: 7M/18M
+[INFO] ------------------------------------------------------------------------
+
