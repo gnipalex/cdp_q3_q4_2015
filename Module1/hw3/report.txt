@@ -95,4 +95,20 @@ Tests run: 21, Failures: 0, Errors: 0, Skipped: 0
 non paralel  4.065 s, 4.020 s
 4 threads 3.934 s, 4.180 s
 
-10) 
+10) testng tests parallel
+don't work annotations BeforeClass, BeforeMethod
+
+11) maven plugins 
+http://maven.apache.org/plugins/index.html
+
+12) maven help
+mvn help:describe -Dplugin=surefire [-Dmojo=test]
+
+13) make jar association in cmd
+assoc .jar=exjar
+ftype exjar=%JAVA_HOME%\java.exe "%1" %*
+
+otherwise
+
+java -jar <jarname> param1 param2
+

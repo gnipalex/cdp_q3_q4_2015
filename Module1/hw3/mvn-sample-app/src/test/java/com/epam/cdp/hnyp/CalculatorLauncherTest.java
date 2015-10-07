@@ -20,13 +20,13 @@ import com.epam.cdp.hnyp.calculator.impl.SimpleCalculator;
 import com.epam.cdp.hnyp.calculator.operator.Operator;
 import com.epam.cdp.hnyp.calculator.testgroup.CalculatorTestGroup;
 
-@Category(CalculatorTestGroup.class)
 public class CalculatorLauncherTest {
     
     private CalculatorLauncher launcher;
     
     private PrintStreamWrapper out;
     private PrintStreamWrapper err;
+    
     
     @BeforeClass
     public void beforeAll() {
