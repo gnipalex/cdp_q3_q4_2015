@@ -91,3 +91,8 @@ Tests run: 21, Failures: 0, Errors: 0, Skipped: 0
 [INFO] Final Memory: 7M/18M
 [INFO] ------------------------------------------------------------------------
 
+9) junit tests categories, parallel 
+non paralel  4.065 s, 4.020 s
+4 threads 3.934 s, 4.180 s
+
+10) 

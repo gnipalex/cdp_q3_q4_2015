@@ -11,13 +11,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.experimental.categories.Category;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.cdp.hnyp.calculator.impl.SimpleCalculator;
 import com.epam.cdp.hnyp.calculator.operator.Operator;
+import com.epam.cdp.hnyp.calculator.testgroup.CalculatorTestGroup;
 
+@Category(CalculatorTestGroup.class)
 public class CalculatorLauncherTest {
     
     private CalculatorLauncher launcher;

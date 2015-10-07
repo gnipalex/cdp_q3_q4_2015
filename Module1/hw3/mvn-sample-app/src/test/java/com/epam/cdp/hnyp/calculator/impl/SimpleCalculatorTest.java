@@ -8,11 +8,13 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.epam.cdp.hnyp.calculator.operator.Operator;
 import com.epam.cdp.hnyp.calculator.operator.impl.SumOperator;
+import com.epam.cdp.hnyp.calculator.testgroup.CalculatorTestGroup;
 
-
+@Category(CalculatorTestGroup.class)
 public class SimpleCalculatorTest {
 
     private SimpleCalculator simpleCalculator;

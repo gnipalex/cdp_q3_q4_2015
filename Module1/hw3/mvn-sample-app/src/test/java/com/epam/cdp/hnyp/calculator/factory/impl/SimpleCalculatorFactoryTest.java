@@ -3,9 +3,12 @@ package com.epam.cdp.hnyp.calculator.factory.impl;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.epam.cdp.hnyp.calculator.Calculator;
+import com.epam.cdp.hnyp.calculator.testgroup.AssembleTestGroup;
 
+@Category(AssembleTestGroup.class)
 public class SimpleCalculatorFactoryTest {
     
     private SimpleCalculatorFactory factory = new SimpleCalculatorFactory();
