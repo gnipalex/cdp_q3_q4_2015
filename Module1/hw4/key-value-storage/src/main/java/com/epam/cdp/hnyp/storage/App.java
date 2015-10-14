@@ -1,7 +1,11 @@
 package com.epam.cdp.hnyp.storage;
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
+import com.epam.cdp.hnyp.storage.block.impl.FileMappingBlockStorage;
 import com.google.gson.Gson;
 
 /**
@@ -11,7 +15,23 @@ import com.google.gson.Gson;
 public class App {
     public static void main(String[] args) {
         //testGson();
-        testGsonWithClassesAB();
+        //testGsonWithClassesAB();
+        //testBlockStorage();
+    }
+    
+    public static void testBlockStorage() {
+        try {
+            final int blockSz = 50;
+            FileMappingBlockStorage storage = new FileMappingBlockStorage(new File("test_storage"), blockSz);
+            String str = "this is text";
+//            storage.writeBlock(str.getBytes(), 1);
+            byte[] blockData = storage.readBlock(1);
+            String readedString = new String(blockData);
+            System.out.println(readedString);
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     public static void testGson() {
@@ -26,12 +46,10 @@ public class App {
         Gson gson = new Gson();
         A a = new A("this is a", 15);
         B b = new B("this is b", 12, new Date());
-        String jsonA = gson.toJson(a);
+        b.setListOfA(Arrays.asList(a, new A("new a", 99)));
         String jsonB = gson.toJson(b);
-        System.out.println("encoded A : " + jsonA);
         System.out.println("encoded B : " + jsonB);
-        A aFromJsonB = gson.fromJson(jsonB, A.class);
-        Object bFromJsonA = gson.fromJson(jsonA, Object.class);
+        B aFromJsonB = gson.fromJson(jsonB, B.class);
     }
 }
 
@@ -67,6 +85,8 @@ class B {
     private int age;
     private Date time;
     
+    private List<A> listOfA;
+    
     public B() {
     }
     
@@ -95,6 +115,11 @@ class B {
     public void setTime(Date time) {
         this.time = time;
     }
-    
-    
+
+    public List<A> getListOfA() {
+        return listOfA;
+    }
+    public void setListOfA(List<A> listOfA) {
+        this.listOfA = listOfA;
+    }
 }

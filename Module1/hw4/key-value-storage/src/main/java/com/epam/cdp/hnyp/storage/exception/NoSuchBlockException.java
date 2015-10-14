@@ -1,4 +1,4 @@
-package com.epam.cdp.hnyp.storage.block.exception;
+package com.epam.cdp.hnyp.storage.exception;
 
 import java.io.IOException;
 

@@ -1,8 +1,10 @@
 package com.epam.cdp.hnyp.storage.block;
 
-import com.epam.cdp.hnyp.storage.block.exception.StorageException;
+import java.io.Closeable;
 
-public interface BlockStorage {
+import com.epam.cdp.hnyp.storage.exception.StorageException;
+
+public interface BlockStorage extends Closeable {
     byte[] readBlock(int offset) throws StorageException;
     void writeBlock(byte[] source, int offset) throws StorageException;
 }

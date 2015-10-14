@@ -1,4 +1,4 @@
-package com.epam.cdp.hnyp.storage.block.exception;
+package com.epam.cdp.hnyp.storage.exception;
 
 public class StorageException extends Exception {
 
