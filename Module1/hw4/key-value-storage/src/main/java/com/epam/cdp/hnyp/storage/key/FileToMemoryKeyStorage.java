@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.epam.cdp.hnyp.storage.exception.InvalidDescriptorException;
@@ -73,21 +74,43 @@ public class FileToMemoryKeyStorage implements KeyStorage {
 //    }
     
     @Override
-    public KeyDescriptor create(String key, int valueLength) throws StorageException {
-        if (read(key) != null) {
+    public KeyDescriptor create(String key, int valueLength, Class<?> clazz) throws StorageException {
+        KeyDescriptor newDescriptor = null;
+        
+        KeyDescriptor existingDescriptor = descriptorsMap.get(key);
+        if (existingDescriptor != null) {
+            newDescriptor = createOverridingExistingDeleted(existingDescriptor, valueLength, clazz);
+        } else  {
+            newDescriptor = createNew(key, valueLength, clazz);
+        }
+        
+        return newDescriptor;
+    }
+    
+    private KeyDescriptor createOverridingExistingDeleted(KeyDescriptor deletedDescriptor, int valueLength, 
+            Class<?> clazz) throws StorageException {
+        if (!deletedDescriptor.isDeleted()) {
             return null;
-        }        
+        }
+        KeyDescriptor resizedDescriptor = KeyDescriptor.resize(deletedDescriptor, valueLength, valueBlockSize);
+        resizedDescriptor.setClazz(clazz);
+        resizedDescriptor.resetDeleted();
+        if (!update(resizedDescriptor)) {
+            throw new StorageException("internal key error, could not update deleted key descriptor");
+        }
+        return resizedDescriptor;
+    }
+    
+    private KeyDescriptor createNew(String key, int valueLength, Class<?> clazz) throws StorageException {
         KeyDescriptor newDescriptor = null;
         KeyDescriptor lastDescriptor = getLastDescriptorByStartBlock();
         if (lastDescriptor != null) {
-            newDescriptor = KeyDescriptor.createAfterLast(lastDescriptor, key, valueLength, valueBlockSize);            
+            newDescriptor = KeyDescriptor.createAfterLast(lastDescriptor, key, valueLength, valueBlockSize, clazz);            
         } else {
-            newDescriptor = KeyDescriptor.createFromStart(key, valueLength, valueBlockSize);
+            newDescriptor = KeyDescriptor.createFromStart(key, valueLength, valueBlockSize, clazz);
         }
-        
         serializeAndWrite(newDescriptor);
-        descriptorsMap.put(key, newDescriptor);
-        
+        putCopyToMap(newDescriptor);
         return newDescriptor;
     }
     
@@ -122,17 +145,26 @@ public class FileToMemoryKeyStorage implements KeyStorage {
         KeyDescriptor oldDescriptor = descriptorsMap.get(updatedDescriptor.getKey());
         if (oldDescriptor != null) {  
             if (needsNewBlockAfterUpdate(oldDescriptor, updatedDescriptor)) {
-                // generate new key for deleted KeyDescriptor ???
                 // we need to store deleted desriptors to not to loose deleted space in storage
-                // but map doesnt allow to duplicate keys
-                // or rewise deleted places management
-            }
-            //KeyDescriptor copyOfUpdateKeyDescriptor = new KeyDescriptor(updatedDescriptor);
+                // but map doesnt allow duplicate keys, so we need to genarate new key for deleted descriptor
+                oldDescriptor.markDeleted();
+                serializeAndWrite(oldDescriptor);
+                oldDescriptor.setKey(generateNewKeyForDeletedDescriptor());
+            } 
             serializeAndWrite(updatedDescriptor);
-            descriptorsMap.put(updatedDescriptor.getKey(), updatedDescriptor);
+            putCopyToMap(updatedDescriptor); 
             return true;
         }
         return false;
+    }
+    
+    private void putCopyToMap(KeyDescriptor original) {
+        KeyDescriptor copyDescriptor = new KeyDescriptor(original);
+        descriptorsMap.put(copyDescriptor.getKey(), copyDescriptor);
+    }
+    
+    private String generateNewKeyForDeletedDescriptor() {
+        return UUID.randomUUID().toString();
     }
     
     private void checkDescriptorValidForUpdate(KeyDescriptor descriptor) throws StorageException {
@@ -197,11 +229,9 @@ public class FileToMemoryKeyStorage implements KeyStorage {
     }
     
     private static class IOExceptionRuntimeWrapper extends RuntimeException {
-
         public IOExceptionRuntimeWrapper(Throwable cause) {
             super(cause);
-        }
-        
+        }  
     }
 
 }

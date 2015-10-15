@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import com.epam.cdp.hnyp.storage.block.impl.FileMappingBlockStorage;
 import com.google.gson.Gson;

@@ -20,6 +20,9 @@ public class KeyDescriptorValidator {
         if (descriptor.getStartBlock() < 0) {
             errors.add("startBlock should be >= 0");
         }
+        if (descriptor.getClass() == null) {
+            errors.add("class should be specified");
+        }
         return errors;
     }
 }
