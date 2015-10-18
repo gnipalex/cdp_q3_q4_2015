@@ -12,6 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -31,11 +32,11 @@ import com.google.gson.JsonSyntaxException;
 
 public class FileToMemoryKeyStorage implements KeyStorage {
 
-    private static final String DEFAULT_ENCODING = "cp1251";
-    
+//    private static final String DEFAULT_ENCODING = "cp1251";
+//    
     private Gson gson = new Gson();
-    
-    private String encoding;
+        
+    private Charset charset;
     
     private File keysFile;
     
@@ -43,34 +44,32 @@ public class FileToMemoryKeyStorage implements KeyStorage {
     
     private Map<String, KeyDescriptor> descriptorsMap = new HashMap<>();
     
-    public FileToMemoryKeyStorage(File file, int valueBlockSize) throws IOException, StorageException {
-        if (file.exists() && file.length() > 0) {
-            try (BufferedReader br = openReader(file)) {
+    public FileToMemoryKeyStorage(File file, String encoding, int valueBlockSize) throws IOException, StorageException {
+        this.keysFile = file;
+        this.valueBlockSize = valueBlockSize;
+        this.charset = Charset.forName(encoding);
+        readAllKeysToMap();
+    }
+    
+    private void readAllKeysToMap() throws IOException, StorageException {
+        if (keysFile.exists() && keysFile.length() > 0) {
+            try (BufferedReader br = openReader(keysFile)) {
                 String line = null;
                 while(StringUtils.isNotEmpty(line = br.readLine())) {
                     parseAndLoadKeyDescriptorToMap(line);
                 }
             }
         }
-        this.keysFile = file;
-        this.valueBlockSize = valueBlockSize;
-        this.encoding = DEFAULT_ENCODING;
-    }
-    
-    public FileToMemoryKeyStorage(File file, String encoding, int valueBlockSize) throws IOException, StorageException {
-        this(file, valueBlockSize);
-        this.encoding = encoding;
     }
     
     private BufferedReader openReader(File file) throws FileNotFoundException, UnsupportedEncodingException {
-        Reader reader = new InputStreamReader(new FileInputStream(file), encoding); 
+        Reader reader = new InputStreamReader(new FileInputStream(file), charset); 
         return new BufferedReader(reader);
     }
     
     private void parseAndLoadKeyDescriptorToMap(String line) throws StorageException {
         try {
             KeyDescriptor descriptor = gson.fromJson(line, KeyDescriptor.class);
-            //checkDescriptorIsUnique(descriptor);
             // the goal is to allow duplication - last one will overwrite others
             // this situation only possible when file was not overwritten after work is done
             checkDescriptorFormat(descriptor);
@@ -88,13 +87,6 @@ public class FileToMemoryKeyStorage implements KeyStorage {
                    new InvalidDescriptorException(MessageFormat.format("{0} - {1}", descriptor, error)));
        }
     }
-    
-//    private void checkDescriptorIsUnique(KeyDescriptor descriptor) throws StorageException {
-//        if (read(descriptor.getKey()) != null) {
-//           throw new StorageException("bad descriptor", 
-//                   new StructureCorruptedException("key is not unique, " + descriptor));
-//        }
-//    }
     
     @Override
     public KeyDescriptor create(String key, int valueLength, Class<?> clazz) throws StorageException {
@@ -224,14 +216,14 @@ public class FileToMemoryKeyStorage implements KeyStorage {
         writeAllKeysDescriptorsToFile();
     }
     
-    private void writeAllKeysDescriptorsToFile() {
+    private void writeAllKeysDescriptorsToFile() throws IOException {
         try (BufferedWriter bw = openOverwriteWriter(keysFile)) {
             descriptorsMap.entrySet().stream()
                 .map(e -> e.getValue())
                 .map(gson::toJson)
                 .forEach(json -> writeLine(bw, json));
-        } catch (IOException | IOExceptionRuntimeWrapper e) {
-            // log
+        } catch (IOExceptionRuntimeWrapper e) {
+            throw new IOException(e);
         }
     }
     
@@ -245,12 +237,12 @@ public class FileToMemoryKeyStorage implements KeyStorage {
     }
     
     private BufferedWriter openAppendWriter(File file) throws IOException {
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file, true), encoding);
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file, true), charset);
         return new BufferedWriter(writer);
     }
     
     private BufferedWriter openOverwriteWriter(File file) throws IOException {
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file, false), encoding);
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file, false), charset);
         return new BufferedWriter(writer);
     }
     
