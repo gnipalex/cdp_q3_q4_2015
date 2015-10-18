@@ -30,7 +30,7 @@ public class FileToMemoryKeyStorageIntegrationTest {
     
     private static final String ENCODING = "cp1251";
     
-    private static final File KEY_FILE = new File("test/keyfile");
+    private static final File KEY_FILE = new File("test_key_file");
     
     private static final String DEFAULT_KEY = "mykey";
     private static final int DEFAULT_VALUE_LENGTH = 10;

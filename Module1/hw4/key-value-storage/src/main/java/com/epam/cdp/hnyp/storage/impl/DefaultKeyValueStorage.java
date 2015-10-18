@@ -1,5 +1,6 @@
 package com.epam.cdp.hnyp.storage.impl;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.apache.log4j.Logger;
@@ -34,8 +35,8 @@ public class DefaultKeyValueStorage implements KeyValueStorage {
             try {
                 valueStorage.writeValue(createdDescriptor, value);
             } catch (StorageException e) {
-                keyStorage.delete(key);
                 LOG.error(MessageFormat.format("value writing failed, deleting key '{0}'", key), e);
+                keyStorage.delete(key);
                 return false;
             }
         } catch (StorageException e) {
@@ -64,14 +65,11 @@ public class DefaultKeyValueStorage implements KeyValueStorage {
         KeyDescriptor oldDescriptor = keyStorage.read(key);
         KeyDescriptor updateDescriptor = new KeyDescriptor(oldDescriptor);
         valueStorage.updateKeyDescriptor(updateDescriptor, value);
-        try {
-            if (!keyStorage.update(updateDescriptor)) {
-                return false;
-            }
-        } catch (StorageException e) {
-            LOG.error(MessageFormat.format("failed to update key '{0}'", key), e);
+        
+        if (!updateKeyFirst(updateDescriptor)) {
             return false;
         }
+        
         try {
             valueStorage.writeValue(updateDescriptor, value);
             return true;
@@ -85,6 +83,15 @@ public class DefaultKeyValueStorage implements KeyValueStorage {
         }
         return false;
     }
+    
+    private boolean updateKeyFirst(KeyDescriptor updatedDescriptor) {
+        try {
+            return keyStorage.update(updatedDescriptor);
+        } catch (StorageException e) {
+            LOG.error(MessageFormat.format("failed to update key '{0}'", updatedDescriptor.getKey()), e);
+            return false;
+        }
+    }
 
     @Override
     public boolean delete(String key) {
@@ -94,6 +101,11 @@ public class DefaultKeyValueStorage implements KeyValueStorage {
             LOG.error(MessageFormat.format("removing of key '{0}' failed", key), e);
         }
         return false;
+    }
+
+    @Override
+    public void close() throws IOException {
+        keyStorage.close();
     }
 
 }

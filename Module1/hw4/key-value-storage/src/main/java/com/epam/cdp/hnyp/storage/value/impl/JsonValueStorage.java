@@ -1,5 +1,6 @@
 package com.epam.cdp.hnyp.storage.value.impl;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +31,7 @@ public class JsonValueStorage implements ValueStorage {
         checkEncodingNotEmpty(encoding);
         this.blockStorage = blockStorage;
         this.charset = Charset.forName(encoding);
+        this.blockSize = blockSize;
     }
     
     private void checkEncodingNotEmpty(String encoding) {
@@ -110,6 +112,11 @@ public class JsonValueStorage implements ValueStorage {
         int requiredBlockCount = KeyDescriptor.requiredBlocksCount(valueLength, blockSize);
         keyDescriptor.setBlocksCount(requiredBlockCount);
         keyDescriptor.setValueLength(valueLength);
+    }
+
+    @Override
+    public void close() throws IOException {
+        blockStorage.close();
     }
 
 }

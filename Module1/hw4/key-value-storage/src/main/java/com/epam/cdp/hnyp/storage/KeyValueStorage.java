@@ -1,6 +1,8 @@
 package com.epam.cdp.hnyp.storage;
 
-public interface KeyValueStorage {
+import java.io.Closeable;
+
+public interface KeyValueStorage extends Closeable {
     boolean create(String key, Object value);
     Object read(String key);
     boolean update(String key, Object value);
