@@ -1,6 +1,5 @@
 package com.epam.cdp.hnyp.storage.block.impl;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;

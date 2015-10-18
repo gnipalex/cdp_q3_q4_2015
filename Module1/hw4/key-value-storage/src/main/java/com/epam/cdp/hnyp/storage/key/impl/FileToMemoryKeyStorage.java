@@ -1,12 +1,17 @@
-package com.epam.cdp.hnyp.storage.key;
+package com.epam.cdp.hnyp.storage.key.impl;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -14,8 +19,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.epam.cdp.hnyp.storage.exception.InvalidDescriptorException;
 import com.epam.cdp.hnyp.storage.exception.StorageException;
+import com.epam.cdp.hnyp.storage.key.KeyDescriptor;
+import com.epam.cdp.hnyp.storage.key.KeyDescriptorValidator;
+import com.epam.cdp.hnyp.storage.key.KeyStorage;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -30,18 +40,21 @@ public class FileToMemoryKeyStorage implements KeyStorage {
     private Map<String, KeyDescriptor> descriptorsMap = new HashMap<>();
     
     public FileToMemoryKeyStorage(File file, int valueBlockSize) throws IOException, StorageException {
-        try (BufferedReader br = openReader(file)) {
-            String line = null;
-            while((line = br.readLine()) != null) {
-                parseAndLoadKeyDescriptorToMap(line);
+        if (file.exists() && file.length() > 0) {
+            try (BufferedReader br = openReader(file)) {
+                String line = null;
+                while(StringUtils.isNotEmpty(line = br.readLine())) {
+                    parseAndLoadKeyDescriptorToMap(line);
+                }
             }
         }
         this.keysFile = file;
         this.valueBlockSize = valueBlockSize;
     }
     
-    private BufferedReader openReader(File file) throws FileNotFoundException {
-        return new BufferedReader(new FileReader(file));
+    private BufferedReader openReader(File file) throws FileNotFoundException, UnsupportedEncodingException {
+        Reader reader = new InputStreamReader(new FileInputStream(file), "cp1251"); 
+        return new BufferedReader(reader);
     }
     
     private void parseAndLoadKeyDescriptorToMap(String line) throws StorageException {
@@ -93,7 +106,7 @@ public class FileToMemoryKeyStorage implements KeyStorage {
             return null;
         }
         KeyDescriptor resizedDescriptor = KeyDescriptor.resize(deletedDescriptor, valueLength, valueBlockSize);
-        resizedDescriptor.setClazz(clazz);
+        resizedDescriptor.setValueClass(clazz);
         resizedDescriptor.resetDeleted();
         if (!update(resizedDescriptor)) {
             throw new StorageException("internal key error, could not update deleted key descriptor");
@@ -147,9 +160,10 @@ public class FileToMemoryKeyStorage implements KeyStorage {
             if (needsNewBlockAfterUpdate(oldDescriptor, updatedDescriptor)) {
                 // we need to store deleted desriptors to not to loose deleted space in storage
                 // but map doesnt allow duplicate keys, so we need to genarate new key for deleted descriptor
+                // also in file it is required too
                 oldDescriptor.markDeleted();
-                serializeAndWrite(oldDescriptor);
                 oldDescriptor.setKey(generateNewKeyForDeletedDescriptor());
+                serializeAndWrite(oldDescriptor);
             } 
             serializeAndWrite(updatedDescriptor);
             putCopyToMap(updatedDescriptor); 
@@ -221,11 +235,13 @@ public class FileToMemoryKeyStorage implements KeyStorage {
     }
     
     private BufferedWriter openAppendWriter(File file) throws IOException {
-        return new BufferedWriter(new FileWriter(keysFile, true));
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file, true), "cp1251");
+        return new BufferedWriter(writer);
     }
     
     private BufferedWriter openOverwriteWriter(File file) throws IOException {
-        return new BufferedWriter(new FileWriter(file));
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file, false), "cp1251");
+        return new BufferedWriter(writer);
     }
     
     private static class IOExceptionRuntimeWrapper extends RuntimeException {

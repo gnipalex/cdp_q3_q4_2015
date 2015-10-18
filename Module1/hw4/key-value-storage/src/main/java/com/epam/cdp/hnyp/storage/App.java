@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.mockito.cglib.core.ReflectUtils;
+
 import com.epam.cdp.hnyp.storage.block.impl.FileMappingBlockStorage;
 import com.google.gson.Gson;
 
@@ -18,6 +20,7 @@ public class App {
         //testGson();
         //testGsonWithClassesAB();
         //testBlockStorage();
+        testClassTypeSerialize();
     }
     
     public static void testBlockStorage() {
@@ -52,7 +55,19 @@ public class App {
         System.out.println("encoded B : " + jsonB);
         B aFromJsonB = gson.fromJson(jsonB, B.class);
     }
+    
+    public static void testClassTypeSerialize() {
+        Gson gson = new Gson();
+        Class<?> clazz = A.class;
+//        String json = gson.toJson(clazz);
+        System.out.println(clazz.getCanonicalName());
+        System.out.println(clazz.getName());
+        System.out.println(clazz.getSimpleName());
+        System.out.println(clazz.getPackage());
+    }
 }
+
+
 
 class A {
     private String text;

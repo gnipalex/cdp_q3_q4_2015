@@ -2,13 +2,15 @@ package com.epam.cdp.hnyp.storage.key;
 
 import java.text.MessageFormat;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class KeyDescriptor {
     private String key;
     private int blocksCount;
     private int valueLength;
     private int startBlock;
     private boolean deleted;
-    private Class<?> clazz;
+    private String className;
     
     public KeyDescriptor(String key, int valueLength, int blocksCount,
             int startBlock, Class<?> clazz) {
@@ -16,7 +18,7 @@ public class KeyDescriptor {
         this.blocksCount = blocksCount;
         this.valueLength = valueLength;
         this.startBlock = startBlock;
-        this.clazz = clazz;
+        this.className = clazz.getCanonicalName();
     }
     
     public KeyDescriptor(KeyDescriptor source) {
@@ -25,7 +27,7 @@ public class KeyDescriptor {
         this.key = source.key;
         this.startBlock = source.startBlock;
         this.valueLength = source.valueLength;
-        this.clazz = source.clazz;
+        this.className = source.className;
     }
 
     public static KeyDescriptor createAfterLast(KeyDescriptor lastDescriptor,
@@ -36,7 +38,11 @@ public class KeyDescriptor {
     }
     
     private static int requiredBlocksCount(int valueLength, int blockSize) {
-        return valueLength / blockSize + 1;
+        int requiredBlocksCount = valueLength / blockSize;
+        if (valueLength > blockSize && valueLength % blockSize > 0) {
+            requiredBlocksCount++;
+        }
+        return requiredBlocksCount;
     }
     
     public static KeyDescriptor createFromStart(String key, int valueLength, int blockSize, 
@@ -76,36 +82,47 @@ public class KeyDescriptor {
         return deleted;
     }
 
-    void markDeleted() {
+    public void markDeleted() {
         this.deleted = true;
     }
     
-    void resetDeleted() {
+    public void resetDeleted() {
         this.deleted = false;
     }
 
-    void setKey(String key) {
+    public void setKey(String key) {
         this.key = key;
     }
 
-    void setBlocksCount(int blocksCount) {
+    public void setBlocksCount(int blocksCount) {
         this.blocksCount = blocksCount;
     }
 
-    void setStartBlock(int startBlock) {
+    public void setStartBlock(int startBlock) {
         this.startBlock = startBlock;
     }
 
-    void setDeleted(boolean deleted) {
+    public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 
-    public Class<?> getClazz() {
-        return clazz;
+    public String getClassName() {
+        return className;
     }
 
-    public void setClazz(Class<?> clazz) {
-        this.clazz = clazz;
+    public void setClassName(String className) {
+        this.className = className;
+    }
+    
+    public void setValueClass(Class<?> clazz) {
+        this.className = clazz.getCanonicalName();
+    }
+    
+    public Class<?> getValueClass() throws ClassNotFoundException {
+        if (StringUtils.isNotBlank(this.className)) {
+            return Class.forName(className);
+        }
+        return null;
     }
 
     @Override
@@ -113,7 +130,7 @@ public class KeyDescriptor {
         return MessageFormat.format("[key = {0}, blocksCount = {1}, "
                 + "valueLength = {2}, startBlock = {3}, deleted = {4}, clazz = {5}]",
                 this.key, this.blocksCount, this.valueLength, this.startBlock,
-                this.deleted, this.clazz);
+                this.deleted, this.className);
     }
 
 }
