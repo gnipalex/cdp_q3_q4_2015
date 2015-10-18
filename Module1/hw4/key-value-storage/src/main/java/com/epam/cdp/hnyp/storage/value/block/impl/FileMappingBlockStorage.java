@@ -1,4 +1,4 @@
-package com.epam.cdp.hnyp.storage.block.impl;
+package com.epam.cdp.hnyp.storage.value.block.impl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,10 +7,10 @@ import java.io.RandomAccessFile;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.epam.cdp.hnyp.storage.block.BlockStorage;
 import com.epam.cdp.hnyp.storage.exception.NoSuchBlockException;
 import com.epam.cdp.hnyp.storage.exception.StorageException;
 import com.epam.cdp.hnyp.storage.exception.StructureCorruptedException;
+import com.epam.cdp.hnyp.storage.value.block.BlockStorage;
 
 public class FileMappingBlockStorage implements BlockStorage {
     private int blockSize;

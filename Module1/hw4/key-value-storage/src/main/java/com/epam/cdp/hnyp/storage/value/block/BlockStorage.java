@@ -1,4 +1,4 @@
-package com.epam.cdp.hnyp.storage.block;
+package com.epam.cdp.hnyp.storage.value.block;
 
 import java.io.Closeable;
 

@@ -37,9 +37,9 @@ public class KeyDescriptor {
         return new KeyDescriptor(key, valueLength, requiredBlockCount,  startBlock, clazz);
     }
     
-    private static int requiredBlocksCount(int valueLength, int blockSize) {
+    public static int requiredBlocksCount(int valueLength, int blockSize) {
         int requiredBlocksCount = valueLength / blockSize;
-        if (valueLength > blockSize && valueLength % blockSize > 0) {
+        if (valueLength % blockSize > 0) {
             requiredBlocksCount++;
         }
         return requiredBlocksCount;

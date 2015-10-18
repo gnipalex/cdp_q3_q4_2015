@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import org.mockito.cglib.core.ReflectUtils;
 
-import com.epam.cdp.hnyp.storage.block.impl.FileMappingBlockStorage;
+import com.epam.cdp.hnyp.storage.value.block.impl.FileMappingBlockStorage;
 import com.google.gson.Gson;
 
 /**

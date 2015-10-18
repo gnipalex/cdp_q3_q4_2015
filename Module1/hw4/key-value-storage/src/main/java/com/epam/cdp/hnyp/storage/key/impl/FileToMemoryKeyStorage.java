@@ -31,7 +31,11 @@ import com.google.gson.JsonSyntaxException;
 
 public class FileToMemoryKeyStorage implements KeyStorage {
 
+    private static final String DEFAULT_ENCODING = "cp1251";
+    
     private Gson gson = new Gson();
+    
+    private String encoding;
     
     private File keysFile;
     
@@ -50,10 +54,16 @@ public class FileToMemoryKeyStorage implements KeyStorage {
         }
         this.keysFile = file;
         this.valueBlockSize = valueBlockSize;
+        this.encoding = DEFAULT_ENCODING;
+    }
+    
+    public FileToMemoryKeyStorage(File file, String encoding, int valueBlockSize) throws IOException, StorageException {
+        this(file, valueBlockSize);
+        this.encoding = encoding;
     }
     
     private BufferedReader openReader(File file) throws FileNotFoundException, UnsupportedEncodingException {
-        Reader reader = new InputStreamReader(new FileInputStream(file), "cp1251"); 
+        Reader reader = new InputStreamReader(new FileInputStream(file), encoding); 
         return new BufferedReader(reader);
     }
     
@@ -183,8 +193,8 @@ public class FileToMemoryKeyStorage implements KeyStorage {
     
     private void checkDescriptorValidForUpdate(KeyDescriptor descriptor) throws StorageException {
         int blockCount = descriptor.getBlocksCount();
-        int requiredBlockCount = descriptor.getValueLength() / valueBlockSize + 1;
-        if ( blockCount < requiredBlockCount) {
+        int requiredBlockCount = KeyDescriptor.requiredBlocksCount(descriptor.getValueLength(), valueBlockSize);
+        if (blockCount < requiredBlockCount) {
             throw new StorageException("bad descriptor for update", 
                     new InvalidDescriptorException(
                             MessageFormat.format("blocksCount {0} while required {1}", blockCount, requiredBlockCount)));
@@ -235,12 +245,12 @@ public class FileToMemoryKeyStorage implements KeyStorage {
     }
     
     private BufferedWriter openAppendWriter(File file) throws IOException {
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file, true), "cp1251");
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file, true), encoding);
         return new BufferedWriter(writer);
     }
     
     private BufferedWriter openOverwriteWriter(File file) throws IOException {
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file, false), "cp1251");
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file, false), encoding);
         return new BufferedWriter(writer);
     }
     
