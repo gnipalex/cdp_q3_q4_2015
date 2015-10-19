@@ -118,9 +118,13 @@ public class KeyDescriptor {
         this.className = clazz.getCanonicalName();
     }
     
-    public Class<?> getValueClass() throws ClassNotFoundException {
+    public Class<?> getValueClass() {
         if (StringUtils.isNotBlank(this.className)) {
-            return Class.forName(className);
+            try {
+                return Class.forName(className);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(MessageFormat.format("class {0} not found", className), e);
+            }
         }
         return null;
     }

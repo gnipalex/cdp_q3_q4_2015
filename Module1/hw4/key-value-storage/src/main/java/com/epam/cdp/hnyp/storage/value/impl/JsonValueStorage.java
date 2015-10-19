@@ -47,7 +47,7 @@ public class JsonValueStorage implements ValueStorage {
         
         byte[] valueBytes = readValuesBytes(valueLength, startBlock); 
         
-        return getObjectFromJsonBytes(valueBytes, keyDescriptor.getClass());
+        return getObjectFromJsonBytes(valueBytes, keyDescriptor.getValueClass());
     }
     
     private Object getObjectFromJsonBytes(byte[] jsonBytes, Class<?> type) {
@@ -61,7 +61,8 @@ public class JsonValueStorage implements ValueStorage {
         for (int i=0; i<blocksCount; i++) {
             byte[] blockBytes = blockStorage.readBlock(startBlock + i);
             int position = i * blockSize;
-            int valueLengthInReadBlock = valueLength - position;
+            int restLength = valueLength - position;
+            int valueLengthInReadBlock = restLength > blockSize ? blockSize : restLength;
             System.arraycopy(blockBytes, 0, valueBytes, position, valueLengthInReadBlock);
         }
         return valueBytes;

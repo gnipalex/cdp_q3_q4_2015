@@ -7,7 +7,7 @@ import com.epam.cdp.hnyp.storage.factory.KeyValueStorageFactory;
 
 public class Demo {
     public static void main(String[] args) throws IOException {
-        testKeyValueStorage();
+        testKeyValueStorage();;
     }
     
     public static void testKeyValueStorage() throws IOException {
@@ -16,7 +16,9 @@ public class Demo {
             System.out.println(storage.read("key1"));
             
             storage.create("string", "here is some string");
-            System.out.println(storage.read("string"));    
+            System.out.println(storage.read("string")); 
+            storage.update("string", "this is update value, the text is long, this is update value, the text is long enough");
+            System.out.println(storage.read("string")); 
         }
     }
 }
