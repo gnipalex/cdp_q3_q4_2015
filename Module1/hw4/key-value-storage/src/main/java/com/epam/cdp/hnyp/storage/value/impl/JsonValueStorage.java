@@ -2,11 +2,17 @@ package com.epam.cdp.hnyp.storage.value.impl;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.MessageFormat;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.epam.cdp.hnyp.storage.exception.InvalidDescriptorException;
 import com.epam.cdp.hnyp.storage.exception.StorageException;
 import com.epam.cdp.hnyp.storage.key.KeyDescriptor;
+import com.epam.cdp.hnyp.storage.key.KeyDescriptorValidator;
 import com.epam.cdp.hnyp.storage.value.ValueStorage;
 import com.epam.cdp.hnyp.storage.value.block.BlockStorage;
 import com.google.gson.GsonBuilder;
@@ -28,20 +34,34 @@ public class JsonValueStorage implements ValueStorage {
     
     public JsonValueStorage(BlockStorage blockStorage, int blockSize, String encoding) {
         this();
-        checkEncodingNotEmpty(encoding);
+        checkEncodingIsNotEmpty(encoding);
+        checkBlockSize(blockSize);
         this.blockStorage = blockStorage;
         this.charset = Charset.forName(encoding);
         this.blockSize = blockSize;
     }
     
-    private void checkEncodingNotEmpty(String encoding) {
+    private void checkEncodingIsNotEmpty(String encoding) {
         if (StringUtils.isEmpty(encoding)) {
             throw new IllegalArgumentException("encoding shouldn't be empty");
         }
     }
     
+    private void checkBlockSize(int blockSize) {
+        if (blockSize <= 0) {
+            throw new IllegalArgumentException("block size should be greater than zero");
+        }
+    }
+    
+    private void checkValueIsNotNull(Object value) {
+        if (value == null) {
+            throw new IllegalArgumentException("value should not be null");
+        }
+    }
+    
     @Override
     public Object readValue(KeyDescriptor keyDescriptor) throws StorageException {
+        checkDescriptorIsValid(keyDescriptor);
         int startBlock = keyDescriptor.getStartBlock();
         int valueLength = keyDescriptor.getValueLength();
         
@@ -50,8 +70,21 @@ public class JsonValueStorage implements ValueStorage {
         return getObjectFromJsonBytes(valueBytes, keyDescriptor.getValueClass());
     }
     
+    private void checkDescriptorIsValid(KeyDescriptor keyDescriptor) throws StorageException {
+        if (keyDescriptor == null) {
+            throw new IllegalArgumentException("descriptor shouldn't be null");
+        }
+        List<String> errors = KeyDescriptorValidator.validate(keyDescriptor);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            String errorMessage = errors.stream().collect(Collectors.joining("; "));
+            throw new StorageException("bad descriptor", 
+                    new InvalidDescriptorException(MessageFormat.format("{0} - {1}", keyDescriptor, errorMessage)));
+            
+        }
+    }
+    
     private Object getObjectFromJsonBytes(byte[] jsonBytes, Class<?> type) {
-        String json = new String(jsonBytes, charset);
+        String json = new String(jsonBytes, charset).trim();
         return gsonBuilder.create().fromJson(json, type);
     }
     
@@ -70,6 +103,8 @@ public class JsonValueStorage implements ValueStorage {
 
     @Override
     public void writeValue(KeyDescriptor keyDescriptor, Object value) throws StorageException {
+        checkDescriptorIsValid(keyDescriptor);
+        checkValueIsNotNull(value);
         int startBlock = keyDescriptor.getStartBlock();
         byte[] valueBytes = getJsonAsBytes(value);
         writeValueBytes(valueBytes, startBlock);
@@ -94,6 +129,7 @@ public class JsonValueStorage implements ValueStorage {
 
     @Override
     public int calculateLength(Object value) {
+        checkValueIsNotNull(value);
         return getJsonAsBytes(value).length;
     }
     
@@ -109,6 +145,8 @@ public class JsonValueStorage implements ValueStorage {
     @Override
     public void updateKeyDescriptor(KeyDescriptor keyDescriptor,
             Object value) {
+        checkValueIsNotNull(keyDescriptor);
+        checkValueIsNotNull(value);
         int valueLength = calculateLength(value);
         int requiredBlockCount = KeyDescriptor.requiredBlocksCount(valueLength, blockSize);
         keyDescriptor.setBlocksCount(requiredBlockCount);
