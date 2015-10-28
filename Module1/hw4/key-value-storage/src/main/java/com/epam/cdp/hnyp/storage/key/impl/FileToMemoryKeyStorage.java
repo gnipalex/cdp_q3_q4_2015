@@ -32,16 +32,10 @@ import com.google.gson.JsonSyntaxException;
 
 public class FileToMemoryKeyStorage implements KeyStorage {
 
-//    private static final String DEFAULT_ENCODING = "cp1251";
-//    
-    private Gson gson = new Gson();
-        
+    private Gson gson = new Gson();    
     private Charset charset;
-    
     private File keysFile;
-    
     private int valueBlockSize;
-    
     private Map<String, KeyDescriptor> descriptorsMap = new HashMap<>();
     
     public FileToMemoryKeyStorage(File file, String encoding, int valueBlockSize) throws IOException, StorageException {
