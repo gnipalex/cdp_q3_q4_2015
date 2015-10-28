@@ -38,4 +38,28 @@ public class KeyValueStorageFactory {
             return null;
         } 
     }
+    
+    public static KeyValueStorage createDefaultKeyValueStorage(File folder) {
+        try {
+            createFolderIfNotExists(folder);
+            File keyFile = new File(folder, DEFAULT_KEYS_FILE.getName());
+            File valueFile = new File(folder, DEFAULT_VALUES_FILE.getName());
+            
+            KeyStorage keyStorage = new FileToMemoryKeyStorage(keyFile, DEFAULT_ENCODING, DEFAULT_BLOCK_SIZE);
+            BlockStorage blockStorage = new FileMappingBlockStorage(valueFile, DEFAULT_BLOCK_SIZE);
+            ValueStorage valueStorage = new JsonValueStorage(blockStorage, DEFAULT_BLOCK_SIZE, DEFAULT_ENCODING);
+            
+            KeyValueStorage keyValueStorage = new DefaultKeyValueStorage(keyStorage, valueStorage);
+            return keyValueStorage; 
+        } catch (StorageException | IOException e) {
+            LOG.error("keyvalue storage creation failed", e);
+            return null;
+        }
+    }
+    
+    private static void createFolderIfNotExists(File file) {
+        if (!file.exists() && !file.mkdirs()) {
+            throw new IllegalStateException("cannot create directory " + file.getAbsolutePath());
+        }
+    }
 }
