@@ -14,6 +14,10 @@ import com.epam.cdp.hnyp.storage.key.KeyDescriptor;
 import com.epam.cdp.hnyp.storage.key.KeyStorage;
 import com.epam.cdp.hnyp.storage.value.ValueStorage;
 
+/**
+ * Implementation of KeyValueStorage using separate storages for keys and values. Synchronized to be used in multiple threads.
+ *
+ */
 public class DefaultKeyValueStorage implements KeyValueStorage {
 
     private static final Logger LOG = Logger.getLogger(DefaultKeyValueStorage.class);
@@ -30,7 +34,7 @@ public class DefaultKeyValueStorage implements KeyValueStorage {
     }
     
     @Override
-    public boolean create(String key, Object value) throws StorageException {
+    public synchronized boolean create(String key, Object value) throws StorageException {
         checkKeyIsNotEmpty(key);
         checkValueIsNotNull(value);
         try {
@@ -67,7 +71,7 @@ public class DefaultKeyValueStorage implements KeyValueStorage {
     }
 
     @Override
-    public Object read(String key) throws StorageException {
+    public synchronized Object read(String key) throws StorageException {
         checkKeyIsNotEmpty(key);
         KeyDescriptor keyDescriptor = keyStorage.read(key);
         if (keyDescriptor == null) {
@@ -81,8 +85,11 @@ public class DefaultKeyValueStorage implements KeyValueStorage {
         }
     }
 
+    /**
+     * In case of value update fail tries to restore previous key.
+     */
     @Override
-    public boolean update(String key, Object value) throws StorageException {
+    public synchronized boolean update(String key, Object value) throws StorageException {
         checkKeyIsNotEmpty(key);
         checkValueIsNotNull(value);
         KeyDescriptor oldDescriptor = keyStorage.read(key);
@@ -121,7 +128,7 @@ public class DefaultKeyValueStorage implements KeyValueStorage {
     }
 
     @Override
-    public boolean delete(String key) throws StorageException {
+    public synchronized boolean delete(String key) throws StorageException {
         checkKeyIsNotEmpty(key);
         try {
            return keyStorage.delete(key);
@@ -132,7 +139,7 @@ public class DefaultKeyValueStorage implements KeyValueStorage {
     }
 
     @Override
-    public void close() throws IOException {
+    public synchronized void close() throws IOException {
         Arrays.asList(keyStorage, valueStorage).stream()
             .forEach(this::closeQuiet);
     }
