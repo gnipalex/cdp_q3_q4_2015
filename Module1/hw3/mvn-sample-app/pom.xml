@@ -60,7 +60,7 @@
 								<include>%regex[.*Test\..*]</include>
 							</includes>
 							<testNGArtifactName>dev:null</testNGArtifactName>
-							<testFailureIgnore>true</testFailureIgnore>
+							<testFailureIgnore>false</testFailureIgnore>
 						</configuration>
 					</execution>
 					<execution>
