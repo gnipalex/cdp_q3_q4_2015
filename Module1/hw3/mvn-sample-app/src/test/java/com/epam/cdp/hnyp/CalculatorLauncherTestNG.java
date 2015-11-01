@@ -11,16 +11,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.experimental.categories.Category;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.cdp.hnyp.calculator.impl.SimpleCalculator;
 import com.epam.cdp.hnyp.calculator.operator.Operator;
-import com.epam.cdp.hnyp.calculator.testgroup.CalculatorTestGroup;
 
-public class CalculatorLauncherTest {
+@Test(groups = "integration")
+public class CalculatorLauncherTestNG {
     
     private CalculatorLauncher launcher;
     
@@ -28,7 +27,7 @@ public class CalculatorLauncherTest {
     private PrintStreamWrapper err;
     
     
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void beforeAll() {
         Map<String, Operator> operators = new HashMap<>();
         operators.put("+", (a, b) -> a + b);
@@ -36,7 +35,7 @@ public class CalculatorLauncherTest {
         launcher = new CalculatorLauncher(calculator);
     }
     
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void before() {
         out = new PrintStreamWrapper();
         err = new PrintStreamWrapper();
