@@ -103,6 +103,17 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0-beta-3</version>
+				<configuration>
+					<fromDir>${project.build.directory}</fromDir>
+					<includes>${project.build.finalName}-jar-with-dependencies.${project.packaging}</includes>
+					<url>${deployUrl}</url>
+					<toDir>${deployDir}</toDir>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
