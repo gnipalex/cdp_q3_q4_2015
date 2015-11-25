@@ -189,10 +189,11 @@ public class LFUCache<K, V> implements Cache<K, V> {
     }
 
     public boolean isClosed() {
-        return isClosed || cacheManager.isClosed() || cacheManager.getCache(name) == null;
+        return isClosed || cacheManager.isClosed() || cacheManager.getCache(name) != this;
     }
 
     public Iterator<Entry<K, V>> iterator() {
+        assertIsNotClosed();
         return cacheEntries.values().stream().map(v -> (Entry<K,V>)v).iterator();
     }
 

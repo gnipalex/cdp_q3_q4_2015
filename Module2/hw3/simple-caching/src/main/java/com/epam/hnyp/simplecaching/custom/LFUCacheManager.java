@@ -15,7 +15,7 @@ import javax.cache.spi.CachingProvider;
 public class LFUCacheManager implements CacheManager {
 
     private boolean isClosed;
-    private Map<String, LFUCache<?, ?>> cachesMap; 
+    private Map<String, Cache<?, ?>> cachesMap; 
     
     public LFUCacheManager() {
         cachesMap = new ConcurrentHashMap<>();
