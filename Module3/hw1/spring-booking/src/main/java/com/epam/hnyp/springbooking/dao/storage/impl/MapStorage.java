@@ -24,20 +24,22 @@ public class MapStorage implements Storage {
         return true;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public <T> T get(String key, Class<T> clazz) {
         Object value = entries.get(key);
-        if (value != null && value.getClass().isAssignableFrom(clazz)) {
+        if (clazz.isInstance(value)) {
             return (T) value;
         }
         return null;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public <T> List<T> getAllByPrefix(String prefix, Class<T> clazz) {
-        return entries.entrySet().stream()
+    	return entries.entrySet().stream()
             .filter(e -> e.getKey().startsWith(prefix))
-            .filter(e -> e.getClass().isAssignableFrom(clazz))
+            .filter(e -> clazz.isInstance(e.getValue()))
             .map(e -> (T) e.getValue())
             .collect(Collectors.toList());
     }
@@ -48,7 +50,7 @@ public class MapStorage implements Storage {
     }
     
     public static void main(String[] args) {
-        
+        System.out.println(Integer.class.isInstance(null));
     }
 
 }

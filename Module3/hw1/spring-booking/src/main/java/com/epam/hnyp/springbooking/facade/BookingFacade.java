@@ -15,9 +15,10 @@ public interface BookingFacade {
 
     /**
      * Gets event by its id.
+     * @param eventId Event id.
      * @return Event.
      */
-    Event getEventById();
+    Event getEventById(long eventId);
 
     /**
      * Get list of events by matching title. Title is matched using 'contains' approach.
@@ -62,9 +63,10 @@ public interface BookingFacade {
 
     /**
      * Gets user by its id.
+     * @param userId User id.
      * @return User.
      */
-    User getUserById();
+    User getUserById(long userId);
 
     /**
      * Gets user by its email. Email is strictly matched.
@@ -110,7 +112,8 @@ public interface BookingFacade {
      * @param place Place number.
      * @param category Service category.
      * @return Booked ticket object.
-     * @throws java.lang.IllegalStateException if this place has already been booked.
+     * @throws IllegalStateException if this place has already been booked.
+     * @throws IllegalArgumentException if user or event doesn't exist
      */
     Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category);
 
