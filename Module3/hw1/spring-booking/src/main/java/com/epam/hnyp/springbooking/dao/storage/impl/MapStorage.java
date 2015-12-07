@@ -48,9 +48,5 @@ public class MapStorage implements Storage {
     public boolean remove(String key) {
         return entries.remove(key) != null;
     }
-    
-    public static void main(String[] args) {
-        System.out.println(Integer.class.isInstance(null));
-    }
 
 }

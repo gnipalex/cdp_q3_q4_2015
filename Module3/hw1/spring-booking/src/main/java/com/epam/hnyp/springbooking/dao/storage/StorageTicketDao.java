@@ -71,7 +71,7 @@ public class StorageTicketDao implements TicketDao {
 	private List<Ticket> performSortByUserEmailAscending(List<Ticket> tickets) {
 	    List<User> relatedUsersSortedByEmail = tickets.stream()
 	            .map(t -> userDao.getById(t.getUserId()))
-	            .sorted(getUserByEmailComparator().reversed())
+	            .sorted(getUserByEmailComparator())
 	            .collect(Collectors.toList());
 	    
 	    Map<Long, List<Ticket>> ticketsGroupedByUser = tickets.stream()
