@@ -1,5 +1,7 @@
 package com.epam.hnyp.springbooking.model.impl;
 
+import java.text.MessageFormat;
+
 import com.epam.hnyp.springbooking.model.User;
 
 public class UserImpl implements User {
@@ -8,33 +10,39 @@ public class UserImpl implements User {
     private String name;
     private String email;
     
-    public long getId() {
-        return 0;
+    @Override
+	public long getId() {
+        return id;
     }
 
-    public void setId(long id) {
-        // TODO Auto-generated method stub
-        
+    @Override
+	public void setId(long id) {
+        this.id = id;        
     }
 
-    public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+    @Override
+	public String getName() {
+        return name;
     }
 
-    public void setName(String name) {
-        // TODO Auto-generated method stub
-        
+    @Override
+	public void setName(String name) {
+        this.name = name;
     }
 
-    public String getEmail() {
-        // TODO Auto-generated method stub
-        return null;
+    @Override
+	public String getEmail() {
+        return email;
     }
 
-    public void setEmail(String email) {
-        // TODO Auto-generated method stub
-        
+    @Override
+	public void setEmail(String email) {
+    	this.email = email;
+    }
+    
+    @Override
+    public String toString() {
+    	return MessageFormat.format("User[id={0}; name={1}; email={2}]", id, name, email);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.epam.hnyp.springbooking.model.impl;
 
+import java.text.MessageFormat;
+
 import com.epam.hnyp.springbooking.model.Ticket;
 
 public class TicketImpl implements Ticket {
@@ -10,44 +12,60 @@ public class TicketImpl implements Ticket {
     private Category category;
     private int place;
     
-    public long getId() {
+    @Override
+	public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    @Override
+	public void setId(long id) {
         this.id = id;        
     }
 
-    public long getEventId() {
+    @Override
+	public long getEventId() {
         return eventId;
     }
 
-    public void setEventId(long eventId) {
+    @Override
+	public void setEventId(long eventId) {
         this.eventId = eventId;
     }
 
-    public long getUserId() {
+    @Override
+	public long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    @Override
+	public void setUserId(long userId) {
         this.userId = userId;
     }
 
-    public Category getCategory() {
+    @Override
+	public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    @Override
+	public void setCategory(Category category) {
         this.category = category;
     }
 
-    public int getPlace() {
+    @Override
+	public int getPlace() {
         return place;
     }
 
-    public void setPlace(int place) {
+    @Override
+	public void setPlace(int place) {
         this.place = place;
+    }
+    
+    @Override
+    public String toString() {
+    	return MessageFormat.format("Ticket[id={0}; eventId={1}; userId={2}; category={3}; place={4}]", 
+    			id, eventId, userId, category, place);
     }
 
 }
