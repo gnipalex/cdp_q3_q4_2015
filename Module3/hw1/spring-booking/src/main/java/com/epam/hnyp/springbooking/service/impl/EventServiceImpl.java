@@ -41,4 +41,8 @@ public class EventServiceImpl implements EventService {
 		return eventDao.delete(eventId);
 	}
 
+	public void setEventDao(EventDao eventDao) {
+		this.eventDao = eventDao;
+	}
+
 }

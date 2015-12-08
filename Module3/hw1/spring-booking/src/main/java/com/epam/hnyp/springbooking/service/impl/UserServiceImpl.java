@@ -40,4 +40,8 @@ public class UserServiceImpl implements UserService {
 		return userDao.delete(userId);
 	}
 
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
 }

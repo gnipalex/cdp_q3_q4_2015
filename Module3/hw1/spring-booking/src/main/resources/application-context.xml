@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   					http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- dao layer -->
+    <alias name="mapStorage" alias="defaultStorage" />
+    <bean id="mapStorage" class="com.epam.hnyp.springbooking.dao.storage.impl.MapStorage" />
+    
+    <alias name="storageUserDao" alias="userDao" />
+    <bean id="storageUserDao" 
+        class="com.epam.hnyp.springbooking.dao.storage.StorageUserDao" 
+        autowire="byType" />
+    
+    <alias name="storageTicketDao" alias="ticketDao" />
+    <bean id="storageTicketDao" 
+        class="com.epam.hnyp.springbooking.dao.storage.StorageTicketDao" 
+        autowire="byType" />
+    
+    <alias name="storageEventDao" alias="eventDao" />
+    <bean id="storageEventDao" 
+        class="com.epam.hnyp.springbooking.dao.storage.StorageEventDao" 
+        autowire="byType" />
+    
+    <!-- service layer -->
+    <alias name="userServiceImpl" alias="userService" />
+    <bean id="userServiceImpl" 
+        class="com.epam.hnyp.springbooking.service.impl.UserServiceImpl" 
+        p:userDao-ref="userDao" />
+    
+    <alias name="ticketServiceImpl" alias="ticketService" />
+    <bean id="ticketServiceImpl" 
+        class="com.epam.hnyp.springbooking.service.impl.TicketServiceImpl" 
+        p:ticketDao-ref="ticketDao">
+        <lookup-method name="createTicket" bean="ticketInstance" />
+    </bean>
+    <bean id="ticketInstance" class="com.epam.hnyp.springbooking.model.impl.TicketImpl" scope="prototype" />
+    
+    <alias name="eventServiceImpl" alias="eventService" />
+    <bean id="eventServiceImpl" class="com.epam.hnyp.springbooking.service.impl.EventServiceImpl">
+        <property name="eventDao" ref="eventDao" />
+    </bean>
+    
+    <!-- facade layer -->
+    <alias name="bookingFacadeImpl" alias="bookingFacade" />
+    <bean id="bookingFacadeImpl" class="com.epam.hnyp.springbooking.facade.impl.BookingFacadeImpl">
+        <constructor-arg ref="eventService" />
+        <constructor-arg ref="userService" />
+        <constructor-arg ref="ticketService" />
+    </bean>
+
+</beans>

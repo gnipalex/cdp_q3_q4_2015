@@ -7,7 +7,6 @@ import com.epam.hnyp.springbooking.dao.TicketDao;
 import com.epam.hnyp.springbooking.model.Event;
 import com.epam.hnyp.springbooking.model.Ticket;
 import com.epam.hnyp.springbooking.model.Ticket.Category;
-import com.epam.hnyp.springbooking.model.impl.TicketImpl;
 import com.epam.hnyp.springbooking.model.User;
 import com.epam.hnyp.springbooking.service.TicketService;
 
@@ -28,9 +27,8 @@ public class TicketServiceImpl implements TicketService {
 		return ticketDao.create(ticket);
 	}
 	
-	// who is responsible for creation ?  
 	protected Ticket createTicket() {
-		return new TicketImpl();
+		throw new UnsupportedOperationException();
 	}
 	
 	private void assertPlaceIsFree(Event event, int place, Category category) {
@@ -56,5 +54,9 @@ public class TicketServiceImpl implements TicketService {
 	public boolean cancelTicket(long ticketId) {
 		return ticketDao.delete(ticketId);
 	}
-	
+
+	public void setTicketDao(TicketDao ticketDao) {
+		this.ticketDao = ticketDao;
+	}
+
 }

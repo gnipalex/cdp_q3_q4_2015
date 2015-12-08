@@ -19,6 +19,15 @@ public class BookingFacadeImpl implements BookingFacade {
 	private UserService userService;
 	private TicketService ticketService;
 	
+	public BookingFacadeImpl() {
+	}
+	
+	public BookingFacadeImpl(EventService eventService, UserService userService, TicketService ticketService) {
+		this.eventService = eventService;
+		this.userService = userService;
+		this.ticketService = ticketService;
+	}
+
 	@Override
 	public Event getEventById(long eventId) {
 		return eventService.getEventById(eventId);
