@@ -26,8 +26,7 @@ public class BookingFacadeImpl implements BookingFacade {
     public BookingFacadeImpl() {
     }
 
-    public BookingFacadeImpl(EventService eventService,
-            UserService userService, TicketService ticketService) {
+    public BookingFacadeImpl(EventService eventService, UserService userService, TicketService ticketService) {
         this.eventService = eventService;
         this.userService = userService;
         this.ticketService = ticketService;
@@ -50,10 +49,8 @@ public class BookingFacadeImpl implements BookingFacade {
 
     @Override
     public List<Event> getEventsByTitle(String title, int pageSize, int pageNum) {
-        List<Event> events = eventService.getEventsByTitle(title, pageSize,
-                pageNum);
-        LOG.info(MessageFormat.format(
-                "found {0} events for title {1}, page = {2}, pagesize = {3}",
+        List<Event> events = eventService.getEventsByTitle(title, pageSize, pageNum);
+        LOG.info(MessageFormat.format("found {0} events for title {1}, page = {2}, pagesize = {3}",
                 events.size(), title, pageNum, pageSize));
         return events;
     }
@@ -62,8 +59,7 @@ public class BookingFacadeImpl implements BookingFacade {
     public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) {
         List<Event> events = eventService.getEventsForDay(day, pageSize,
                 pageNum);
-        LOG.info(MessageFormat.format(
-                "found {0} events for day {1}, page = {2}, pagesize = {3}",
+        LOG.info(MessageFormat.format("found {0} events for day {1}, page = {2}, pagesize = {3}",
                 events.size(), day, pageNum, pageSize));
         return events;
     }
@@ -90,8 +86,7 @@ public class BookingFacadeImpl implements BookingFacade {
     public boolean deleteEvent(long eventId) {
         boolean isDeleted = eventService.deleteEvent(eventId);
         if (!isDeleted) {
-            LOG.info(MessageFormat.format("event with id {0} was not deleted",
-                    eventId));
+            LOG.info(MessageFormat.format("event with id {0} was not deleted", eventId));
         }
         return isDeleted;
     }
@@ -115,8 +110,7 @@ public class BookingFacadeImpl implements BookingFacade {
     public User getUserByEmail(String email) {
         User userByEmail = userService.getUserByEmail(email);
         if (userByEmail == null) {
-            LOG.info(MessageFormat
-                    .format("user for email {0} not found", email));
+            LOG.info(MessageFormat.format("user for email {0} not found", email));
         }
         return userByEmail;
     }
@@ -148,8 +142,7 @@ public class BookingFacadeImpl implements BookingFacade {
     public boolean deleteUser(long userId) {
         boolean isDeleted = userService.deleteUser(userId);
         if (!isDeleted) {
-            LOG.info(MessageFormat.format("user by id {0} was not removed",
-                    userId));
+            LOG.info(MessageFormat.format("user by id {0} was not removed", userId));
         }
         return isDeleted;
     }
@@ -160,10 +153,8 @@ public class BookingFacadeImpl implements BookingFacade {
         // need to check whether user/event exist
         User user = userService.getUserById(userId);
         Event event = eventService.getEventById(eventId);
-        assertNotNull(user,
-                MessageFormat.format("user with id {0} does not exist", userId));
-        assertNotNull(event, MessageFormat.format(
-                "event with id {0} does not exist", eventId));
+        assertNotNull(user, MessageFormat.format("user with id {0} does not exist", userId));
+        assertNotNull(event, MessageFormat.format("event with id {0} does not exist", eventId));
 
         return ticketService.bookTicket(user, event, place, category);
     }
@@ -176,20 +167,16 @@ public class BookingFacadeImpl implements BookingFacade {
 
     @Override
     public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) {
-        List<Ticket> tickets = ticketService.getBookedTickets(user, pageSize,
-                pageNum);
-        LOG.info(MessageFormat.format(
-                "found {0} tickets for user {1}, page = {2}, pagesize = {3}",
-                tickets.size(), user, pageNum, pageSize));
+        List<Ticket> tickets = ticketService.getBookedTickets(user, pageSize, pageNum);
+        LOG.info(MessageFormat.format("found {0} tickets for user {1}, page = {2}, pagesize = {3}", 
+        		tickets.size(), user, pageNum, pageSize));
         return tickets;
     }
 
     @Override
     public List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum) {
-        List<Ticket> tickets = ticketService.getBookedTickets(event, pageSize,
-                pageNum);
-        LOG.info(MessageFormat.format(
-                "found {0} tickets for event {1}, page = {2}, pagesize = {3}",
+        List<Ticket> tickets = ticketService.getBookedTickets(event, pageSize, pageNum);
+        LOG.info(MessageFormat.format("found {0} tickets for event {1}, page = {2}, pagesize = {3}",
                 tickets.size(), event, pageNum, pageSize));
         return tickets;
     }
@@ -198,8 +185,7 @@ public class BookingFacadeImpl implements BookingFacade {
     public boolean cancelTicket(long ticketId) {
         boolean isCancelled = ticketService.cancelTicket(ticketId);
         if (!isCancelled) {
-            LOG.info(MessageFormat.format(
-                    "ticket with id {0} is not calcelled", ticketId));
+            LOG.info(MessageFormat.format("ticket with id {0} is not calcelled", ticketId));
         }
         return isCancelled;
     }

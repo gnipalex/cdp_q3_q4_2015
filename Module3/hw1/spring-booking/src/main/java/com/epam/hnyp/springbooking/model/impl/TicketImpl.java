@@ -1,6 +1,7 @@
 package com.epam.hnyp.springbooking.model.impl;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 
 import com.epam.hnyp.springbooking.model.Ticket;
 
@@ -12,7 +13,17 @@ public class TicketImpl implements Ticket {
     private Category category;
     private int place;
     
-    @Override
+    public TicketImpl() {
+	}
+    
+    public TicketImpl(long eventId, long userId, Category category, int place) {
+		this.eventId = eventId;
+		this.userId = userId;
+		this.category = category;
+		this.place = place;
+	}
+
+	@Override
 	public long getId() {
         return id;
     }
@@ -66,6 +77,24 @@ public class TicketImpl implements Ticket {
     public String toString() {
     	return MessageFormat.format("Ticket[id={0}; eventId={1}; userId={2}; category={3}; place={4}]", 
     			id, eventId, userId, category, place);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, eventId, category, place);
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Ticket)) {
+            return false;
+        }
+        Ticket other = (Ticket) obj;
+        return this == other || Objects.equals(id, other.getId())
+                && Objects.equals(eventId, other.getUserId())
+                && Objects.equals(userId, other.getUserId())
+                && Objects.equals(category, other.getCategory())
+                && Objects.equals(place, other.getPlace());
     }
 
 }

@@ -64,4 +64,8 @@ public class StorageEventDao implements EventDao {
 		return storage.remove(getKey(eventId));
 	}
 
+    public void setStorage(Storage storage) {
+        this.storage = storage;
+    }
+	
 }

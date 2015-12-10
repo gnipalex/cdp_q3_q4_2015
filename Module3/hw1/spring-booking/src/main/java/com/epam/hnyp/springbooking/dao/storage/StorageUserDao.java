@@ -64,4 +64,8 @@ public class StorageUserDao implements UserDao {
 		return storage.remove(getKey(userId));
 	}
 
+    public void setStorage(Storage storage) {
+        this.storage = storage;
+    }
+
 }

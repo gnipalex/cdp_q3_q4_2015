@@ -2,6 +2,7 @@ package com.epam.hnyp.springbooking.model.impl;
 
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import com.epam.hnyp.springbooking.model.Event;
 
@@ -11,7 +12,15 @@ public class EventImpl implements Event {
     private String title;
     private Date date;
     
-    @Override
+    public EventImpl() {
+	}
+    
+    public EventImpl(String title, Date date) {
+		this.title = title;
+		this.date = date;
+	}
+
+	@Override
 	public long getId() {
         return id;
     }
@@ -43,7 +52,24 @@ public class EventImpl implements Event {
     
     @Override
     public String toString() {
-    	return MessageFormat.format("User[id={0}; title={1}; date={2}]", id, title, date);
+    	return MessageFormat.format("Event[id={0}; title={1}; date={2}]", id, title, date);
+    }
+    
+    @Override
+    public int hashCode() {
+    	return Objects.hash(id, title, date);
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (obj == null || !(obj instanceof Event)) {
+    		return false;
+    	}
+    	Event other = (Event)obj;
+    	return this == other || Objects.equals(id, other.getId())
+    	        && Objects.equals(title, other.getTitle())
+    	        && Objects.equals(date, other.getDate());
+
     }
 
 }

@@ -46,6 +46,7 @@ public class StorageTicketDao implements TicketDao {
 	private List<Ticket> performSortByEventDateDescending(List<Ticket> tickets) {
 		List<Event> relatedEventsSortedByDate = tickets.stream()
 			.map(t -> eventDao.getById(t.getEventId()))
+			.distinct()
 			.sorted(getEventByDateComparator().reversed())
 			.collect(Collectors.toList());
 		
@@ -71,6 +72,7 @@ public class StorageTicketDao implements TicketDao {
 	private List<Ticket> performSortByUserEmailAscending(List<Ticket> tickets) {
 	    List<User> relatedUsersSortedByEmail = tickets.stream()
 	            .map(t -> userDao.getById(t.getUserId()))
+	            .distinct()
 	            .sorted(getUserByEmailComparator())
 	            .collect(Collectors.toList());
 	    
@@ -105,4 +107,16 @@ public class StorageTicketDao implements TicketDao {
 				.orElse(null);
 	}
 
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public void setEventDao(EventDao eventDao) {
+        this.eventDao = eventDao;
+    }
+
+    public void setStorage(Storage storage) {
+        this.storage = storage;
+    }
+	
 }
