@@ -1,11 +1,13 @@
 package com.epam.hnyp.springbooking.facade;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import com.epam.hnyp.springbooking.model.Event;
 import com.epam.hnyp.springbooking.model.Ticket;
 import com.epam.hnyp.springbooking.model.User;
+import com.epam.hnyp.springbooking.model.UserAccount;
 
 /**
  * Groups together all operations related to tickets booking.
@@ -112,7 +114,7 @@ public interface BookingFacade {
      * @param place Place number.
      * @param category Service category.
      * @return Booked ticket object.
-     * @throws IllegalStateException if this place has already been booked.
+     * @throws IllegalStateException if any booking problem occurred 
      * @throws IllegalArgumentException if user or event doesn't exist
      */
     Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category);
@@ -141,5 +143,22 @@ public interface BookingFacade {
      * @return Flag whether anything has been canceled.
      */
     boolean cancelTicket(long ticketId);
+    
+    /**
+     * Returns account for user
+     * @param userId
+     * @return users account
+     */
+    UserAccount getUserAccount(long userId);
+    
+    /**
+     * Refill users account with specified amount
+     * @param userId
+     * @param amount
+     * @return true if account successfully refilled
+     * @throws IllegalArgumentException if provided amount is negative
+     * @throws IllegalStateException if user account not found
+     */
+    boolean refillUsersAccount(long userId, BigDecimal amount);
 
 }

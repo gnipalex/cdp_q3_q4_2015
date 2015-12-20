@@ -1,36 +1,36 @@
 package com.epam.hnyp.springbooking.facade.impl;
 
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.epam.hnyp.springbooking.facade.BookingFacade;
 import com.epam.hnyp.springbooking.model.Event;
 import com.epam.hnyp.springbooking.model.Ticket;
 import com.epam.hnyp.springbooking.model.Ticket.Category;
 import com.epam.hnyp.springbooking.model.User;
+import com.epam.hnyp.springbooking.model.UserAccount;
 import com.epam.hnyp.springbooking.service.EventService;
 import com.epam.hnyp.springbooking.service.TicketService;
+import com.epam.hnyp.springbooking.service.UserAccountService;
 import com.epam.hnyp.springbooking.service.UserService;
 
 public class BookingFacadeImpl implements BookingFacade {
 
     private static final Logger LOG = Logger.getLogger(BookingFacadeImpl.class);
 
+    @Autowired
     private EventService eventService;
+    @Autowired
     private UserService userService;
+    @Autowired
     private TicketService ticketService;
-
-    public BookingFacadeImpl() {
-    }
-
-    public BookingFacadeImpl(EventService eventService, UserService userService, TicketService ticketService) {
-        this.eventService = eventService;
-        this.userService = userService;
-        this.ticketService = ticketService;
-    }
+    @Autowired
+    private UserAccountService userAccountService;
 
     @Override
     public Event getEventById(long eventId) {
@@ -124,8 +124,10 @@ public class BookingFacadeImpl implements BookingFacade {
     public User createUser(User user) {
         User createdUser = userService.createUser(user);
         if (createdUser == null) {
-            LOG.info(MessageFormat.format("user was not created, {0}", user));
+            LOG.error(MessageFormat.format("user was not created, {0}", user));
+            return null;
         }
+        UserAccount account = userAccountService.createAccount(createdUser);
         return createdUser;
     }
 
@@ -133,7 +135,7 @@ public class BookingFacadeImpl implements BookingFacade {
     public User updateUser(User user) {
         User updatedUser = userService.updateUser(user);
         if (updatedUser == null) {
-            LOG.info(MessageFormat.format("user was not updated, {0}", user));
+            LOG.error(MessageFormat.format("user was not updated, {0}", user));
         }
         return updatedUser;
     }
@@ -152,9 +154,14 @@ public class BookingFacadeImpl implements BookingFacade {
             Category category) {
         // need to check whether user/event exist
         User user = userService.getUserById(userId);
-        Event event = eventService.getEventById(eventId);
         assertNotNull(user, MessageFormat.format("user with id {0} does not exist", userId));
+        UserAccount account = userAccountService.getAccountByUserId(userId);
+        assertNotNull(account, MessageFormat.format("account for user {0} does not exist", userId));
+        Event event = eventService.getEventById(eventId);
         assertNotNull(event, MessageFormat.format("event with id {0} does not exist", eventId));
+        
+        BigDecimal ticketPrice = event.getTicketPrice();
+        userAccountService.withdrawAmountFromAccount(account, ticketPrice);
 
         return ticketService.bookTicket(user, event, place, category);
     }
@@ -188,6 +195,28 @@ public class BookingFacadeImpl implements BookingFacade {
             LOG.info(MessageFormat.format("ticket with id {0} is not calcelled", ticketId));
         }
         return isCancelled;
+    }
+
+    @Override
+    public UserAccount getUserAccount(long userId) {
+        return userAccountService.getAccountByUserId(userId);
+    }
+
+    @Override
+    public boolean refillUsersAccount(long userId, BigDecimal amount) {
+        UserAccount account = userAccountService.getAccountByUserId(userId);
+        if (account == null) {
+            LOG.error(MessageFormat.format("account {0} doesn't exist", userId));
+            return false;
+        }
+        try {
+            userAccountService.refillAccountWithAmount(account, amount);
+            LOG.info(MessageFormat.format("account {0} was refilled", userId));
+            return true;
+        } catch (IllegalArgumentException e) {
+            LOG.error(MessageFormat.format("can not refill account {0}", userId), e);
+            return false;
+        }
     }
 
 }

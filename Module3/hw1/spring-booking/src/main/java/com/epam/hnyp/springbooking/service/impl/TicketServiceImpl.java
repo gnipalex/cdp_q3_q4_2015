@@ -3,6 +3,8 @@ package com.epam.hnyp.springbooking.service.impl;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Required;
+
 import com.epam.hnyp.springbooking.dao.TicketDao;
 import com.epam.hnyp.springbooking.model.Event;
 import com.epam.hnyp.springbooking.model.Ticket;
@@ -55,6 +57,7 @@ public class TicketServiceImpl implements TicketService {
 		return ticketDao.delete(ticketId);
 	}
 
+	@Required
 	public void setTicketDao(TicketDao ticketDao) {
 		this.ticketDao = ticketDao;
 	}

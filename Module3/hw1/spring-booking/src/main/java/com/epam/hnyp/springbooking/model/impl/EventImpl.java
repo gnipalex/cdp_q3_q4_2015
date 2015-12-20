@@ -1,5 +1,6 @@
 package com.epam.hnyp.springbooking.model.impl;
 
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Objects;
@@ -11,6 +12,7 @@ public class EventImpl implements Event {
     private long id;
     private String title;
     private Date date;
+    private BigDecimal ticketPrice = BigDecimal.ZERO;
     
     public EventImpl() {
 	}
@@ -19,8 +21,15 @@ public class EventImpl implements Event {
 		this.title = title;
 		this.date = date;
 	}
+    
+	public EventImpl(String title, Date date, BigDecimal ticketPrice) {
+        super();
+        this.title = title;
+        this.date = date;
+        this.ticketPrice = ticketPrice;
+    }
 
-	@Override
+    @Override
 	public long getId() {
         return id;
     }
@@ -52,12 +61,12 @@ public class EventImpl implements Event {
     
     @Override
     public String toString() {
-    	return MessageFormat.format("Event[id={0}; title={1}; date={2}]", id, title, date);
+    	return MessageFormat.format("Event[id={0}; title={1}; date={2}; ticketPrice={3}]", id, title, date, ticketPrice);
     }
     
     @Override
     public int hashCode() {
-    	return Objects.hash(id, title, date);
+    	return Objects.hash(id, title, date, ticketPrice);
     }
     
     @Override
@@ -68,8 +77,19 @@ public class EventImpl implements Event {
     	Event other = (Event)obj;
     	return this == other || Objects.equals(id, other.getId())
     	        && Objects.equals(title, other.getTitle())
-    	        && Objects.equals(date, other.getDate());
+    	        && Objects.equals(date, other.getDate())
+    	        && Objects.equals(ticketPrice, other.getTicketPrice());
 
+    }
+
+    @Override
+    public BigDecimal getTicketPrice() {
+        return ticketPrice;
+    }
+
+    @Override
+    public void setTicketPrice(BigDecimal ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 
 }
