@@ -52,11 +52,8 @@ public class UserDaoImpl extends AbstractJdbcDao implements UserDao {
     public User create(User user) {
         Object[] args = { user.getName(), user.getEmail() };
         Number key = updateAndGetKey(INSERT_USER, args);
-        if (key != null) {
-            user.setId(key.longValue());
-            return user;
-        }
-        return null;
+        user.setId(key.longValue());
+        return user;
     }
 
     @Override

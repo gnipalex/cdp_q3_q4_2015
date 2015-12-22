@@ -123,11 +123,9 @@ public class BookingFacadeImpl implements BookingFacade {
     @Override
     public User createUser(User user) {
         User createdUser = userService.createUser(user);
-        if (createdUser == null) {
-            LOG.error(MessageFormat.format("user was not created, {0}", user));
-            return null;
-        }
+        LOG.info(MessageFormat.format("created user {0}", user));
         UserAccount account = userAccountService.createAccount(createdUser);
+        LOG.info(MessageFormat.format("created account for user {0}", user.getId()));
         return createdUser;
     }
 
@@ -203,20 +201,15 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public boolean refillUsersAccount(long userId, BigDecimal amount) {
+    public void refillUsersAccount(long userId, BigDecimal amount) {
         UserAccount account = userAccountService.getAccountByUserId(userId);
         if (account == null) {
-            LOG.error(MessageFormat.format("account {0} doesn't exist", userId));
-            return false;
+            String errorMessage = MessageFormat.format("account {0} doesn't exist", userId);
+            LOG.error(errorMessage);
+            throw new IllegalStateException(errorMessage);
         }
-        try {
-            userAccountService.refillAccountWithAmount(account, amount);
-            LOG.info(MessageFormat.format("account {0} was refilled", userId));
-            return true;
-        } catch (IllegalArgumentException e) {
-            LOG.error(MessageFormat.format("can not refill account {0}", userId), e);
-            return false;
-        }
+        userAccountService.refillAccountWithAmount(account, amount);
+        LOG.info(MessageFormat.format("account {0} was refilled", userId));
     }
 
 }

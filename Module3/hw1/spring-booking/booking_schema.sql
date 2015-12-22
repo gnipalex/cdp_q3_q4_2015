@@ -13,7 +13,7 @@ CREATE TABLE `user`(
 
 CREATE TABLE `userAccount`(
 	`userId` bigint not null unique,
-	`prepaidAmount` decimal(10,2) not null,
+	`prepaidAmount` decimal(10,2) not null CHECK (`prepaidAmount` >= 0 ),
 	constraint `fk_user_account_user` 
 		foreign key (`userId`) references `user`(`id`)
 		on update cascade 
@@ -24,7 +24,7 @@ CREATE TABLE `event`(
 	`id` bigint primary key auto_increment,
 	`title` varchar(500) not null,
 	`date` date not null,
-	`ticketPrice` decimal(10,2) not null
+	`ticketPrice` decimal(10,2) not null CHECK (`ticketPrice` >= 0)
 );
 
 CREATE TABLE `ticket`(

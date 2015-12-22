@@ -90,6 +90,7 @@ public interface BookingFacade {
      * Creates new user. User id should be auto-generated.
      * @param user User data.
      * @return Created User object.
+     * @throws IllegalStateException if user can not be created
      */
     User createUser(User user);
 
@@ -155,10 +156,9 @@ public interface BookingFacade {
      * Refill users account with specified amount
      * @param userId
      * @param amount
-     * @return true if account successfully refilled
      * @throws IllegalArgumentException if provided amount is negative
      * @throws IllegalStateException if user account not found
      */
-    boolean refillUsersAccount(long userId, BigDecimal amount);
+    void refillUsersAccount(long userId, BigDecimal amount);
 
 }

@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -17,10 +18,10 @@ public abstract class AbstractJdbcDao {
     
     protected Number updateAndGetKey(String query, Object... args) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        if (updateWithKeyHolder(query, keyHolder, args) > 0) {
-            return keyHolder.getKey();
+        if (updateWithKeyHolder(query, keyHolder, args) != 1) {
+            throw new IncorrectResultSizeDataAccessException(1);
         }
-        return null;
+        return keyHolder.getKey();
     }
     
     protected int updateWithKeyHolder(String query, KeyHolder keyHolder, Object... args) {
