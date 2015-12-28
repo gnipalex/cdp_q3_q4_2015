@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:ticket="http://www.spring.booking/ticket"
+            targetNamespace="http://www.spring.booking/ticket" >
+    <xs:element name="person" >
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string" />
+                <xs:element name="male" type="xs:boolean" />
+                <xs:element name="age" type="xs:int" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="ticket">
+        <xs:attribute name="user" type="xs:string" />
+        <xs:attribute name="event" type="xs:long" />
+        <xs:attribute name="category" type="ticket:categoryType" />
+        <xs:attribute name="place" type="xs:int" />
+    </xs:complexType>
+    <xs:simpleType name="categoryType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BAR" />
+            <xs:enumeration value="PREMIUM" />
+            <xs:enumeration value="STANDART" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
