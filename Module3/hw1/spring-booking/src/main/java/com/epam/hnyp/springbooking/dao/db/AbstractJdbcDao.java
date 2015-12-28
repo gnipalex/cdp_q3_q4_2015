@@ -2,26 +2,56 @@ package com.epam.hnyp.springbooking.dao.db;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.KeyHolder;
 
-public abstract class AbstractJdbcDao {
+public abstract class AbstractJdbcDao <T> {
     
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
+    protected T queryForObject(String query, Object... args) {
+        List<T> results = queryForList(query, args);
+        return getFirstOrNull(results);
+    }
+    
+    private T getFirstOrNull(List<T> items) {
+        if (CollectionUtils.isNotEmpty(items)) {
+            return items.iterator().next();
+        }
+        return null;
+    }
+    
+    protected List<T> queryForList(String query, Object... args) {
+        return getJdbcTemplate().query(query, getRowMapper(), args);
+    }
+    
+    protected abstract RowMapper<T> getRowMapper();
+    
+    protected void updateRow(String query, Object... args) {
+        assertSingleRowUpdated(getJdbcTemplate().update(query, args)); 
+    }
+    
     protected Number updateAndGetKey(String query, Object... args) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        if (updateWithKeyHolder(query, keyHolder, args) != 1) {
+        assertSingleRowUpdated(updateWithKeyHolder(query, keyHolder, args));
+        return keyHolder.getKey();
+    }
+    
+    private void assertSingleRowUpdated(int actualUpdatedCount) {
+        if (actualUpdatedCount != 1) {
             throw new IncorrectResultSizeDataAccessException(1);
         }
-        return keyHolder.getKey();
     }
     
     protected int updateWithKeyHolder(String query, KeyHolder keyHolder, Object... args) {
@@ -42,7 +72,7 @@ public abstract class AbstractJdbcDao {
     private PreparedStatementSetter getPreparedStatementSetter(Object... args) {
         return (ps) -> {
             for (int i = 1; i <= args.length; i++) {
-                ps.setObject(i, args[i]);
+                ps.setObject(i, args[i - 1]);
             }
         };
     }

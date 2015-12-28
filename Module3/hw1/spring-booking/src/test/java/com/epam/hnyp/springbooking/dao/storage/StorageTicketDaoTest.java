@@ -111,7 +111,7 @@ public class StorageTicketDaoTest {
 	public void shouldReturnTicket_whenPerformGetByEventIdAndPlaceAndTicketExists() {
 		when(mockTicket1.getPlace()).thenReturn(PLACE_1);
 		when(mockTicket1.getCategory()).thenReturn(Category.BAR);
-		Ticket storedTicket = storageTicketDao.getByEventIdAndPlace(EVENT1_ID, PLACE_1, Category.BAR);
+		Ticket storedTicket = storageTicketDao.getByIdAndPlaceAndCategory(EVENT1_ID, PLACE_1, Category.BAR);
 		assertThat(storedTicket).isNotNull();
 	}
 	
@@ -119,7 +119,7 @@ public class StorageTicketDaoTest {
 	public void shouldReturnNull_whenPerformGetByEventIdAndPlaceAndTicketDoesNotExist() {
 		when(mockTicket1.getPlace()).thenReturn(PLACE_1);
 		when(mockTicket1.getCategory()).thenReturn(Category.PREMIUM);
-		Ticket storedTicket = storageTicketDao.getByEventIdAndPlace(EVENT1_ID, PLACE_1, Category.BAR);
+		Ticket storedTicket = storageTicketDao.getByIdAndPlaceAndCategory(EVENT1_ID, PLACE_1, Category.BAR);
 		assertThat(storedTicket).isNull();
 	}
 	

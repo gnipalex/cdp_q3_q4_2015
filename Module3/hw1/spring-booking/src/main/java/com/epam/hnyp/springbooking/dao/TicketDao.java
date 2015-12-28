@@ -13,7 +13,7 @@ public interface TicketDao {
 
     List<Ticket> getAllByEventIdSortedByUserEmail(long eventId, int pageSize, int pageNum);
     
-    Ticket getByEventIdAndPlace(long eventId, int place, Category category);
+    Ticket getByIdAndPlaceAndCategory(long eventId, int place, Category category);
     
     boolean delete(long ticketId);
     

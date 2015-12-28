@@ -3,12 +3,15 @@ package com.epam.hnyp.springbooking.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.epam.hnyp.springbooking.dao.EventDao;
 import com.epam.hnyp.springbooking.model.Event;
 import com.epam.hnyp.springbooking.service.EventService;
 
 public class EventServiceImpl implements EventService {
 
+    @Autowired
 	private EventDao eventDao;
 	
 	@Override
@@ -32,17 +35,13 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Event updateEvent(Event event) {
-		return eventDao.update(event);
+	public void updateEvent(Event event) {
+		eventDao.update(event);
 	}
 
 	@Override
 	public boolean deleteEvent(long eventId) {
 		return eventDao.delete(eventId);
 	}
-
-	public void setEventDao(EventDao eventDao) {
-		this.eventDao = eventDao;
-	}
-
+	
 }

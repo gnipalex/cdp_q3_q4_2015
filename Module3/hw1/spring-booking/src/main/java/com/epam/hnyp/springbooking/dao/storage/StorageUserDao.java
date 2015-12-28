@@ -49,14 +49,11 @@ public class StorageUserDao implements UserDao {
 	}
 
 	@Override
-	public User update(User user) {
+	public void update(User user) {
 		String key = getKey(user.getId());
-		User updatedUser = null;
 		if (storage.remove(key)) {
 			storage.put(key, user);
-			updatedUser = user;
 		}
-		return updatedUser;
 	}
 
 	@Override

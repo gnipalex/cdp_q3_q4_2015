@@ -49,14 +49,11 @@ public class StorageEventDao implements EventDao {
 	}
 
 	@Override
-	public Event update(Event event) {
+	public void update(Event event) {
 		String key = getKey(event.getId());
-		Event updatedEvent = null;
 		if (storage.remove(key)) {
 			storage.put(key, event);
-			updatedEvent = event;
 		}
-		return updatedEvent;
 	}
 
 	@Override

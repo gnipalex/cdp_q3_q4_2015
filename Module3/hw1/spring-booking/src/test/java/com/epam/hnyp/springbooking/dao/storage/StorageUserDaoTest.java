@@ -120,10 +120,7 @@ public class StorageUserDaoTest {
 	public void shouldRemoveOldAndSaveNewUser_whenPerformUpdate() {
 		String key = formatKey(ID_1);
 		when(mockStorage.remove(key)).thenReturn(true);
-		
-		User updatedUser = storageUserDao.update(mockUser1);
-		
-		assertThat(updatedUser).isEqualTo(mockUser1);
+		storageUserDao.update(mockUser1);
 		verify(mockStorage).put(key, mockUser1);
 	}
 	

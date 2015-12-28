@@ -98,7 +98,7 @@ public class StorageTicketDao implements TicketDao {
 	}
 
 	@Override
-	public Ticket getByEventIdAndPlace(long eventId, int place, Category category) {
+	public Ticket getByIdAndPlaceAndCategory(long eventId, int place, Category category) {
 		return getTicketsStream() 
 				.filter(t -> t.getEventId() == eventId)
 				.filter(t -> t.getPlace() == place)

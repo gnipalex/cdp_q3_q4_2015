@@ -8,7 +8,7 @@ public interface UserAccountDao {
     
     UserAccount create(UserAccount userAccount);
     
-    UserAccount update(UserAccount userAccount);
+    void update(UserAccount userAccount);
     
     boolean delete(long id);
     

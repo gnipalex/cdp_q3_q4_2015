@@ -21,7 +21,8 @@
     <context:property-placeholder location="jdbc.properties" />
     
     <!-- dao layer -->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <alias name="applicationDataSource" alias="dataSource" />
+    <bean id="applicationDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClassName}" />
         <property name="url" value="${jdbc.url}" />
         <property name="username" value="${jdbc.username}" />
@@ -36,22 +37,15 @@
     
     <!-- service layer -->
     <alias name="userServiceImpl" alias="userService" />
-    <bean id="userServiceImpl" 
-        class="com.epam.hnyp.springbooking.service.impl.UserServiceImpl" 
-        p:userDao-ref="userDao" />
+    <bean id="userServiceImpl" class="com.epam.hnyp.springbooking.service.impl.UserServiceImpl" />
     
     <alias name="ticketServiceImpl" alias="ticketService" />
-    <bean id="ticketServiceImpl" 
-        class="com.epam.hnyp.springbooking.service.impl.TicketServiceImpl" 
-        p:ticketDao-ref="ticketDao">
-        <lookup-method name="createTicket" bean="ticketInstance" />
-    </bean>
+    <bean id="ticketServiceImpl" class="com.epam.hnyp.springbooking.service.impl.TicketServiceImpl" />
         
     <alias name="eventServiceImpl" alias="eventService" />
-    <bean id="eventServiceImpl" class="com.epam.hnyp.springbooking.service.impl.EventServiceImpl">
-        <property name="eventDao" ref="eventDao" />
-    </bean>
+    <bean id="eventServiceImpl" class="com.epam.hnyp.springbooking.service.impl.EventServiceImpl" />
     
+    <alias name="userAccountServiceImpl" alias="userAccountService" />
     <bean id="userAccountServiceImpl" class="com.epam.hnyp.springbooking.service.impl.UserAccountServiceImpl" />
     
     <!-- facade layer -->

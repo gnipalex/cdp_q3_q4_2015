@@ -35,15 +35,15 @@ public class BookingFacadeImpl implements BookingFacade {
     @Override
     public Event getEventById(long eventId) {
         Event event = eventService.getEventById(eventId);
-        logEvent(eventId, event);
+        logItem(eventId, event);
         return event;
     }
 
-    private void logEvent(long id, Event foundEvent) {
-        if (foundEvent == null) {
-            LOG.info(MessageFormat.format("event with id {0} not found", id));
+    private void logItem(long id, Object item) {
+        if (item == null) {
+            LOG.info(MessageFormat.format("item with id {0} not found", id));
         } else {
-            LOG.info(MessageFormat.format("found event {0}", foundEvent));
+            LOG.info(MessageFormat.format("found item {0}", item));
         }
     }
 
@@ -75,11 +75,9 @@ public class BookingFacadeImpl implements BookingFacade {
 
     @Override
     public Event updateEvent(Event event) {
-        Event updatedEvent = eventService.updateEvent(event);
-        if (updatedEvent == null) {
-            LOG.info(MessageFormat.format("event was not updated, {0}", event));
-        }
-        return updatedEvent;
+        eventService.updateEvent(event);
+        LOG.info(MessageFormat.format("event was updated, {0}", event));
+        return event;
     }
 
     @Override
@@ -94,16 +92,8 @@ public class BookingFacadeImpl implements BookingFacade {
     @Override
     public User getUserById(long userId) {
         User user = userService.getUserById(userId);
-        logUser(userId, user);
+        logItem(userId, user);
         return user;
-    }
-
-    private void logUser(long userId, User foundUser) {
-        if (foundUser == null) {
-            LOG.info(MessageFormat.format("user with id {0} not found", userId));
-        } else {
-            LOG.info(MessageFormat.format("found user {0}", foundUser));
-        }
     }
 
     @Override
@@ -124,18 +114,16 @@ public class BookingFacadeImpl implements BookingFacade {
     public User createUser(User user) {
         User createdUser = userService.createUser(user);
         LOG.info(MessageFormat.format("created user {0}", user));
-        UserAccount account = userAccountService.createAccount(createdUser);
+        userAccountService.createAccount(createdUser);
         LOG.info(MessageFormat.format("created account for user {0}", user.getId()));
         return createdUser;
     }
 
     @Override
     public User updateUser(User user) {
-        User updatedUser = userService.updateUser(user);
-        if (updatedUser == null) {
-            LOG.error(MessageFormat.format("user was not updated, {0}", user));
-        }
-        return updatedUser;
+        userService.updateUser(user);
+        LOG.error(MessageFormat.format("user was updated, {0}", user));
+        return user;
     }
 
     @Override
@@ -148,8 +136,7 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Ticket bookTicket(long userId, long eventId, int place,
-            Category category) {
+    public Ticket bookTicket(long userId, long eventId, int place, Category category) {
         // need to check whether user/event exist
         User user = userService.getUserById(userId);
         assertNotNull(user, MessageFormat.format("user with id {0} does not exist", userId));
@@ -158,9 +145,6 @@ public class BookingFacadeImpl implements BookingFacade {
         Event event = eventService.getEventById(eventId);
         assertNotNull(event, MessageFormat.format("event with id {0} does not exist", eventId));
         
-        BigDecimal ticketPrice = event.getTicketPrice();
-        userAccountService.withdrawAmountFromAccount(account, ticketPrice);
-
         return ticketService.bookTicket(user, event, place, category);
     }
 

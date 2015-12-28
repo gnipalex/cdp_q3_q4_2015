@@ -23,13 +23,13 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public UserAccount createAccount(User user) {
-        UserAccount account = createUserAccount();
+        UserAccount account = createUserAccountInstance();
         account.setUserId(user.getId());
         return userAccountDao.create(account);
     }
 
     @Lookup("userAccountInstance")
-    protected UserAccount createUserAccount() {
+    protected UserAccount createUserAccountInstance() {
         throw new UnsupportedOperationException();
     }
 

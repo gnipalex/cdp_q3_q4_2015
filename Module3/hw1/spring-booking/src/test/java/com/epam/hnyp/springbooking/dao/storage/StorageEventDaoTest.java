@@ -134,10 +134,7 @@ public class StorageEventDaoTest {
 	public void shouldRemoveOldAndSaveNewEvent_whenPerformUpdate() {
 		String key = formatKey(ID_1);
 		when(mockStorage.remove(key)).thenReturn(true);
-		
-		Event updatedEvent = storageEventDao.update(mockEvent1);
-		
-		assertThat(updatedEvent).isEqualTo(mockEvent1);
+		storageEventDao.update(mockEvent1);
 		verify(mockStorage).put(key, mockEvent1);
 	}
 	

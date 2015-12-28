@@ -65,7 +65,7 @@ public class UserImpl implements User {
             return false;
         }
         User other = (User) obj;
-        return this == other || Objects.equals(id, other)
+        return this == other || Objects.equals(id, other.getId())
                 && Objects.equals(email, other.getEmail())
                 && Objects.equals(name, other.getName());
     }

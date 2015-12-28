@@ -1,6 +1,7 @@
 package com.epam.hnyp.springbooking.dao.db;
 
-import org.springframework.beans.factory.annotation.Lookup;
+import javax.annotation.Resource;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -8,53 +9,41 @@ import com.epam.hnyp.springbooking.dao.UserAccountDao;
 import com.epam.hnyp.springbooking.model.UserAccount;
 
 @Repository("userAccountDao")
-public class UserAccountDaoImpl extends AbstractJdbcDao implements UserAccountDao {
+public class UserAccountDaoImpl extends AbstractJdbcDao<UserAccount> implements UserAccountDao {
 
     private static final String SELECT_BY_USER_ID = "SELECT * FROM `userAccount` as ua WHERE ua.userId=?";
     private static final String INSERT_ACCOUNT = "INSERT INTO `userAccount`(userId,prepaidAmount) VALUE (?,?)";
     private static final String UPDATE_BY_ID = "UPDATE `userAccount` SET prepaidAmount=? WHERE userId=?";
-    private static final String DELETE_BY_ID = "DELETE FROM `userAccount` AS ua WHERE ua.userId=?";
+    private static final String DELETE_BY_ID = "DELETE FROM `userAccount` WHERE userId=?";
 
+    @Resource
+    private RowMapper<UserAccount> userAccountRowMapper;
+    
     @Override
     public UserAccount getByUserId(long userId) {
-        return getJdbcTemplate().queryForObject(SELECT_BY_USER_ID, getAccountMapper(), userId);
-    }
-    
-    private RowMapper<UserAccount> getAccountMapper() {
-        return (rs, rowNumber) -> {
-            UserAccount account = createUserAccountInstance();
-            account.setUserId(rs.getLong("userId"));
-            account.setPrepaidAmount(rs.getBigDecimal("prepaidAmount"));
-            return account;
-        };
-    }
-    
-    @Lookup
-    protected UserAccount createUserAccountInstance() {
-        throw new UnsupportedOperationException();
+        return queryForObject(SELECT_BY_USER_ID, userId);
     }
 
     @Override
     public UserAccount create(UserAccount userAccount) {
-        if (getJdbcTemplate().update(INSERT_ACCOUNT, 
-                userAccount.getUserId(), userAccount.getPrepaidAmount()) > 0) {
-            return userAccount;
-        }                
-        return null;
+        updateRow(INSERT_ACCOUNT, userAccount.getUserId(), userAccount.getPrepaidAmount());
+        return userAccount;
     }
 
     @Override
-    public UserAccount update(UserAccount userAccount) {
+    public void update(UserAccount userAccount) {
         Object[] args = { userAccount.getPrepaidAmount(), userAccount.getUserId() };
-        if (getJdbcTemplate().update(UPDATE_BY_ID, args) > 0) {
-            return userAccount;
-        }
-        return null;
+        updateRow(UPDATE_BY_ID, args);
     }
 
     @Override
     public boolean delete(long id) {
         return getJdbcTemplate().update(DELETE_BY_ID, id) > 0;
+    }
+
+    @Override
+    protected RowMapper<UserAccount> getRowMapper() {
+        return userAccountRowMapper;
     }
     
 }

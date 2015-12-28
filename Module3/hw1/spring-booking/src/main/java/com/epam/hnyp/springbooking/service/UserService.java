@@ -39,9 +39,8 @@ public interface UserService {
     /**
      * Updates user using given data.
      * @param user User data for update. Should have id set.
-     * @return Updated User object.
      */
-	User updateUser(User user);
+	void updateUser(User user);
 
     /**
      * Deletes user by its id.

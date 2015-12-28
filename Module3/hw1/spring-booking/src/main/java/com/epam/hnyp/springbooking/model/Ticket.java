@@ -4,7 +4,7 @@ package com.epam.hnyp.springbooking.model;
  * Created by maksym_govorischev.
  */
 public interface Ticket {
-    enum Category {STANDARD, PREMIUM, BAR}
+    enum Category {STANDART, PREMIUM, BAR}
 
     /**
      * Ticket Id. UNIQUE.

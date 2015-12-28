@@ -91,7 +91,7 @@ public class TicketImpl implements Ticket {
         }
         Ticket other = (Ticket) obj;
         return this == other || Objects.equals(id, other.getId())
-                && Objects.equals(eventId, other.getUserId())
+                && Objects.equals(eventId, other.getEventId())
                 && Objects.equals(userId, other.getUserId())
                 && Objects.equals(category, other.getCategory())
                 && Objects.equals(place, other.getPlace());

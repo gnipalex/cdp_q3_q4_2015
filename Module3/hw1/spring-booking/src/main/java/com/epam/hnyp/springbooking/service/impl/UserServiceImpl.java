@@ -2,12 +2,15 @@ package com.epam.hnyp.springbooking.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.epam.hnyp.springbooking.dao.UserDao;
 import com.epam.hnyp.springbooking.model.User;
 import com.epam.hnyp.springbooking.service.UserService;
 
 public class UserServiceImpl implements UserService {
 
+    @Autowired
 	private UserDao userDao;
 	
 	@Override
@@ -31,17 +34,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateUser(User user) {
-		return userDao.update(user);
+	public void updateUser(User user) {
+		userDao.update(user);
 	}
 
 	@Override
 	public boolean deleteUser(long userId) {
 		return userDao.delete(userId);
-	}
-
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
 	}
 
 }
