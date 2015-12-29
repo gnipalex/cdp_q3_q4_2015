@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tickets xmlns="http://www.spring.booking/ticket"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.spring.booking/ticket 
+                            file:./tickets.xsd" >
+    <ticket user="user1@email" event="21" category="BAR" place="2" /> 
+    <ticket user="user2@email" event="22" category="PREMIUM" place="3" /> 
+    <ticket user="user3@email" event="23" category="PREMIUM" place="4" />
+</tickets>

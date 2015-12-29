@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.hnyp.springbooking.dao.TicketDao;
 import com.epam.hnyp.springbooking.model.Event;
@@ -26,6 +28,7 @@ public class TicketServiceImpl implements TicketService {
 	@Autowired
     private UserAccountService userAccountService;
 	
+	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public Ticket bookTicket(User user, Event event, int place, Category category) {
 		assertPlaceIsFree(event, place, category);

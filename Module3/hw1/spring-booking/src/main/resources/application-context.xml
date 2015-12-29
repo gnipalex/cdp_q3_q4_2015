@@ -68,5 +68,17 @@
         <aop:pointcut expression="execution(* com.epam.hnyp.springbooking.service..*.*(..))" id="servicesPointcut" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="servicesPointcut" />
     </aop:config>
+    
+    <!-- xml -->
+    
+    <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="schema" value="classpath:schema/tickets.xsd" />
+        <property name="packagesToScan">
+            <list>
+                <value>com.epam.hnyp.springbooking.xml</value>
+            </list>
+        </property>
+    </bean>
+    
 
 </beans>

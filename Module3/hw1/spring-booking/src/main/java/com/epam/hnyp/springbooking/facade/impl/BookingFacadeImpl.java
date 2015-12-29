@@ -1,12 +1,22 @@
 package com.epam.hnyp.springbooking.facade.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.transform.stream.StreamSource;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.hnyp.springbooking.facade.BookingFacade;
 import com.epam.hnyp.springbooking.model.Event;
@@ -18,6 +28,7 @@ import com.epam.hnyp.springbooking.service.EventService;
 import com.epam.hnyp.springbooking.service.TicketService;
 import com.epam.hnyp.springbooking.service.UserAccountService;
 import com.epam.hnyp.springbooking.service.UserService;
+import com.epam.hnyp.springbooking.xml.ticket.Tickets;
 
 public class BookingFacadeImpl implements BookingFacade {
 
@@ -31,6 +42,8 @@ public class BookingFacadeImpl implements BookingFacade {
     private TicketService ticketService;
     @Autowired
     private UserAccountService userAccountService;
+    @Autowired
+    private Jaxb2Marshaller jaxb2Marshaller;
 
     @Override
     public Event getEventById(long eventId) {
@@ -194,6 +207,39 @@ public class BookingFacadeImpl implements BookingFacade {
         }
         userAccountService.refillAccountWithAmount(account, amount);
         LOG.info(MessageFormat.format("account {0} was refilled", userId));
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void importBookingFromFile(File xmlFile) throws FileNotFoundException, IOException {
+        try (InputStream inputStream = new FileInputStream(xmlFile)) {
+            Tickets ticketsObject = (Tickets) jaxb2Marshaller.unmarshal(new StreamSource(inputStream));
+            ticketsObject.getTicket().forEach(this::processTicket);
+        }
+    }
+    
+    private void processTicket(com.epam.hnyp.springbooking.xml.ticket.Ticket ticketObject) {
+        try {
+            Ticket.Category category = Ticket.Category.valueOf(ticketObject.getCategory().toString());
+            long eventId = ticketObject.getEvent();
+            String userEmail = ticketObject.getUser();
+            int place = ticketObject.getPlace();
+            
+            User user = getUserByEmail(userEmail);
+            if (user == null) {
+            	abortTicketsImporting(MessageFormat.format("user with email {0} not found", userEmail), null);
+            }
+            
+            Ticket bookedTicket = bookTicket(user.getId(), eventId, place, category);
+            LOG.info(MessageFormat.format("created ticket {0}", bookedTicket));
+        } catch (Exception e) {
+            abortTicketsImporting("error during import", e);
+        }
+    }
+    
+    private void abortTicketsImporting(String message, Exception cause) {
+    	LOG.error(MessageFormat.format("tickets import aborted, message : {0}", message), cause);
+    	throw new IllegalStateException(message, cause);
     }
 
 }

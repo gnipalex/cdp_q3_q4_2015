@@ -1,5 +1,8 @@
 package com.epam.hnyp.springbooking.facade;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -160,5 +163,14 @@ public interface BookingFacade {
      * @throws IllegalStateException if user account not found
      */
     void refillUsersAccount(long userId, BigDecimal amount);
+    
+    /**
+     * Performs import off tickets from xml file. Import is success only if all tickets can be imported.
+     * @param xmlFile
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws IllegalStateException in case of import can not be performed
+     */
+    void importBookingFromFile(File xmlFile) throws FileNotFoundException, IOException;
 
 }
