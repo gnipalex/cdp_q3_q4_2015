@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+ 
+	<context:component-scan base-package="com.epam.hnyp.springbooking.web" />
+	
+	<mvc:annotation-driven content-negotiation-manager="cnManager" />
+    <mvc:default-servlet-handler />
+    <mvc:resources location="/ui/" mapping="/ui/**" />
+ 
+    <bean id="cnManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="favorPathExtension" value="false"/>
+        <property name="favorParameter" value="true" />
+        <property name="ignoreAcceptHeader" value="true" />
+        <property name="useJaf" value="false"/>
+        <property name="defaultContentType" value="application/json" />
+        <property name="mediaTypes">
+            <map>
+                <entry key="json" value="application/json" />
+                <entry key="html" value="text/html" />
+            </map>
+        </property>
+    </bean>
+ 
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+ 
+</beans>
