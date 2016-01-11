@@ -26,5 +26,8 @@
             </map>
         </property>
     </bean>
+    
+    <!-- converter -->
+    <bean id="noteConverter" class="com.epam.cdp.hnyp.epambook.social.web.converter.NoteConverter" />
  
 </beans>

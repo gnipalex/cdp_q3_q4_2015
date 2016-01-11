@@ -10,7 +10,7 @@ CREATE TABLE userProfile(
 CREATE TABLE note(
 	id bigint IDENTITY primary key,
 	noteText varchar(500) not null,
-	postDateTime datetime not null,
+	postDateTime datetime not null default CURRENT_TIMESTAMP,
 	authorId bigint not null,
 	timelineOwnerId bigint not null,
 	

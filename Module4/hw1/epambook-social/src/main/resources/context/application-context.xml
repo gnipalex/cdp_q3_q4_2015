@@ -21,10 +21,18 @@
         <constructor-arg ref="dataSource" />
     </bean>
     
+    <!-- dao -->
     <bean id="userProfileDao" class="com.epam.cdp.hnyp.epambook.social.dao.impl.UserProfileDaoImpl" />
     
     <bean id="noteDao" class="com.epam.cdp.hnyp.epambook.social.dao.impl.NoteDaoImpl" />
     
     <bean id="friendshipDao" class="com.epam.cdp.hnyp.epambook.social.dao.impl.FriendshipDaoImpl" />
-
+    
+    <!-- service -->
+    <bean id="userProfileService" class="com.epam.cdp.hnyp.epambook.social.service.impl.UserProfileServiceImpl" />
+    
+    <bean id="noteService" class="com.epam.cdp.hnyp.epambook.social.service.impl.NoteServiceImpl" />
+    
+    <bean id="friendshipService" class="com.epam.cdp.hnyp.epambook.social.service.impl.FriendshipServiceImpl" />
+    
 </beans>

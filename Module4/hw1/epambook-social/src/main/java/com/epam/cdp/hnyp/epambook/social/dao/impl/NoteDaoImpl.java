@@ -11,7 +11,8 @@ import com.epam.cdp.hnyp.epambook.social.model.Note;
 public class NoteDaoImpl extends AbstractJdbcDao<Note> implements NoteDao {
 
     private static final String SELECT_ALL_BY_TIMELINE_OWNER_ID = "SELECT * FROM note WHERE timelineOwnerId=?";
-    private static final String CREATE = "INSERT INTO note(noteText,postDateTime,authorId,timelineOwnerId) VALUE (?,?,?,?)";
+    private static final String SELECT_BY_ID = "SELECT * FROM note WHERE id=?";
+    private static final String CREATE = "INSERT INTO note(noteText,authorId,timelineOwnerId) VALUE (?,?,?)";
     
     private static final RowMapper<Note> BEAN_PROPERTY_ROW_MAPPER = new BeanPropertyRowMapper<>(Note.class);
     
@@ -26,6 +27,11 @@ public class NoteDaoImpl extends AbstractJdbcDao<Note> implements NoteDao {
     @Override
     public List<Note> getAllByTimelineOwner(long timelineOwnerId) {
         return queryForList(SELECT_ALL_BY_TIMELINE_OWNER_ID, timelineOwnerId);
+    }
+    
+    @Override
+    public Note getById(long id) {
+        return queryForObject(SELECT_BY_ID, id);
     }
     
 //    protected Note createEntity() {
