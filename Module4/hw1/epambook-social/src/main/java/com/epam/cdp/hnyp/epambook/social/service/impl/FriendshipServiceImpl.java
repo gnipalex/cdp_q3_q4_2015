@@ -44,7 +44,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     @Override
     public UserProfile getFriendProfile(String userName, String friendName) {
         long userId = getExistingProfileIdByUserName(userName);
-        UserProfile friendProfile = userProfileService.getByUserName(friendName);
+        UserProfile friendProfile = userProfileService.getExistingUserProfile(friendName);
         long friendId = friendProfile.getId();
         assertFriendshipExists(userId, friendId);
         return friendProfile;

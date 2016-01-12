@@ -10,13 +10,13 @@ CREATE TABLE userProfile(
 CREATE TABLE note(
 	id bigint IDENTITY primary key,
 	noteText varchar(500) not null,
-	postDateTime datetime not null default CURRENT_TIMESTAMP,
-	authorId bigint not null,
+	postDateTime datetime default CURRENT_TIMESTAMP not null,
+	authorId bigint null,
 	timelineOwnerId bigint not null,
 	
-	constraint fk_note_profile_authorId foreign key (authorId) references profile(id) 
+	constraint fk_note_profile_authorId foreign key (authorId) references userProfile(id) 
 		on delete set null on update cascade,
-	constraint fk_note_profile_timelineOwnerId foreign key (timelineOwnerId) references profile(id) 
+	constraint fk_note_profile_timelineOwnerId foreign key (timelineOwnerId) references userProfile(id) 
 		on delete cascade on update cascade
 );
 
@@ -24,9 +24,9 @@ CREATE TABLE friendship(
 	userId bigint not null,
 	otherUserId bigint not null,
 	
-	constraint fk_friendship_profile_userId foreign key (userId) references profile(id) 
+	constraint fk_friendship_profile_userId foreign key (userId) references userProfile(id) 
 		on delete cascade on update cascade,
-	constraint fk_friendship_profile_otherUserId foreign key (otherUserId) references profile(id) 
+	constraint fk_friendship_profile_otherUserId foreign key (otherUserId) references userProfile(id) 
 		on delete cascade on update cascade
 );
 

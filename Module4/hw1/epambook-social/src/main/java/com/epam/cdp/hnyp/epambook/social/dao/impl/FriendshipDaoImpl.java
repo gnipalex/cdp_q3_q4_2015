@@ -7,7 +7,7 @@ import com.epam.cdp.hnyp.epambook.social.model.UserProfile;
 
 public class FriendshipDaoImpl extends AbstractUserProfileDaoImpl implements FriendshipDao {
 
-    private static final String CREATE = "INSERT INTO friendship(userId,otherUserId) VALUE (?,?)";
+    private static final String CREATE = "INSERT INTO friendship(userId,otherUserId) VALUES (?,?)";
     private static final String SELECT_ALL_FRIENDS_PROFILES_FOR_USER_ID = "SELECT * FROM userProfile WHERE id IN ( "
             + "SELECT DISTINCT * FROM ( "
             + "SELECT userId FROM friendship WHERE otherUserId=? "

@@ -18,7 +18,7 @@ import com.epam.cdp.hnyp.epambook.social.model.Note;
 import com.epam.cdp.hnyp.epambook.social.service.FriendshipService;
 import com.epam.cdp.hnyp.epambook.social.service.NoteService;
 
-@RequestMapping("/users/{userName}/timeline")
+@RequestMapping("/users/{userName}")
 @RestController
 public class NoteController {
 
@@ -29,13 +29,13 @@ public class NoteController {
     @Resource
     private Converter<Note, NoteData> noteConverter;
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/timeline", method = RequestMethod.POST)
     public Note postNote(@PathVariable String userName,
             @RequestParam String noteText) {
         return noteService.create(noteText, userName, userName);
     }
     
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/timeline", method = RequestMethod.GET)
     public List<NoteData> getUsersTimeline(@PathVariable String userName) {
         List<Note> notes = noteService.getAllByTimelineOwner(userName);
         return convertAllNotes(notes);
@@ -46,7 +46,7 @@ public class NoteController {
                 .collect(Collectors.toList());
     }
     
-    @RequestMapping(value = "/{friendName}/timeline", method = RequestMethod.GET)
+    @RequestMapping(value = "/friends/{friendName}/timeline", method = RequestMethod.GET)
     public List<NoteData> getFriendsTimeline(@PathVariable String userName,
             @PathVariable String friendName) {
         friendshipService.getFriendProfile(userName, friendName);
@@ -54,7 +54,7 @@ public class NoteController {
         return convertAllNotes(notes);
     }
     
-    @RequestMapping(value = "/{friendName}/timeline", method = RequestMethod.POST)
+    @RequestMapping(value = "/friends/{friendName}/timeline", method = RequestMethod.POST)
     public Note postNoteToFriendsTimeline(@PathVariable String userName,
             @PathVariable String friendName, 
             @RequestParam String noteText) {

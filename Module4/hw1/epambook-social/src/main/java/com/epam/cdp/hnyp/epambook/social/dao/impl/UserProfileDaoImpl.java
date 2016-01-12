@@ -7,7 +7,7 @@ public class UserProfileDaoImpl extends AbstractUserProfileDaoImpl implements Us
     
     private static final String SELECT_BY_ID = "SELECT * FROM userProfile WHERE id=?";
     private static final String SELECT_BY_USER_NAME = "SELECT * FROM userProfile WHERE userName=?";
-    private static final String INSERT = "INSERT INTO userProfile(userName,name,dateOfBirth) VALUE(?,?,?)";
+    private static final String INSERT = "INSERT INTO userProfile(userName,name,dateOfBirth) VALUES (?,?,?)";
     
     @Override
     public UserProfile getById(long id) {
