@@ -1,0 +1,436 @@
+body {
+	padding: 0;
+	margin: 0;
+	font: 14px/1.3em 'Open Sans', 'open_sansregular', 'Arial', 'Tahoma', 'sans-serif';
+	color: #000;
+}
+
+header, footer, nav, article, main {
+	display:block;
+}
+
+p {
+	text-align: left;
+}
+
+ul {
+	padding: 0;
+}
+
+ul li {
+	list-style: none;
+}
+
+.nomargin {
+	margin: 0;
+}
+
+ul.clear-items li:AFTER {
+	clear: both;
+	display: block;
+	content: '';
+}
+
+.clearfix:BEFORE, .clearfix:AFTER {
+	clear: both;
+	display: block;
+	content: '';
+}
+
+.btn {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	background-color: #000614;
+	color: #fff;
+	font: inherit;
+}
+
+.btn:HOVER {
+	background-color: #26c17e;
+	cursor: pointer;
+}
+
+.overlay {
+	background-color: rgba(0,0,0,0.7);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+}
+
+/********************* index page *********************/
+
+body.index-page {
+	background-image: url("../images/main_background.jpg");
+	background-attachment: scroll;
+    background-size: cover;
+    color: #fff;
+}
+
+.index-page .container {
+	position: absolute;
+	width: 470px;
+	top: 50%;
+	left: 50%;
+	margin-left: -235px;
+	margin-top: -200px;
+}
+
+/* block with profile photo and caption */
+.simple-person-block .photo {
+	margin: 0 auto;
+	width: 200px;
+	height: 200px;
+	display: block;
+	border-radius: 100px;
+    border: 2px solid #fff;
+}
+
+.simple-person-block h1 {
+	text-align: center;
+	margin: 10px 0 0;
+	font: 45px/48px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+	font-weight: 700;
+}
+
+
+/* block with profile description */
+.profile-description h3, 
+.profile-description p, 
+.actions {
+	text-align: center;
+	margin: 10px 0 0;
+}
+
+.profile-description h3 {
+	font: 30px/33px 'Open Sans', 'open_sansregular', 'Arial', 'Tahoma', 'sans-serif';
+}
+
+
+
+/*****************  inner page ********************/
+
+.sidebar {
+	width: 250px;
+	background: #000614;
+	bottom: 0;
+	top: 0;
+	position: fixed;
+}
+
+.sidebar .menu-button {
+	position: absolute;
+	top: 5px;
+	right: -40px;
+	padding: 8px 8px;
+}
+
+.tabs {
+	margin: 30px 0 0;
+}
+
+.tabs li {
+	padding: 20px;
+	border-top: 1px dashed #181e2c;
+	font: 16px/16px 'Open Sans', 'open_sansregular', 'Arial', 'Tahoma', 'sans-serif';
+	color: #676f82;
+}
+.tabs li:LAST-CHILD {
+	border-bottom: 1px dashed #181e2c;
+}
+
+.tabs li:HOVER {
+	color: #26c17e;
+}
+
+.tabs li .fa:BEFORE {
+	font-size: 22px;
+	width: 40px;
+    display: inline-block;
+}
+
+
+.sidebar .actions {
+	position: absolute;
+	width: 100%;
+	bottom: 20px;
+}
+
+.inner-page .container {
+	width: calc(100% - 250px);
+	float: right;
+	padding: 0 40px;
+	box-sizing: border-box;
+}
+
+.content-wrapper {
+	max-width: 900px;
+/*  	margin: 0 auto;  */
+/* 	background-color: rgba(101, 242, 217, 0.14); */
+}
+
+/* configure block with profile photo and name 
+	to be smaller */
+.simple-person-block.small .photo {
+	width: 100px;
+	height: 100px;
+	border-radius: 50px;
+	margin: 15px auto 0;
+}
+
+.simple-person-block.small h1 {
+	text-align: center;
+	margin: 12px 0 0;
+	font: 17px/22px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+	font-weight: 800;
+	color: #feffff;
+}
+
+.details-article {
+	margin: 40px 0 0;
+}
+
+.details-article h1 {
+	margin: 0 0 50px; 
+	font: 25px/28px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+	font-weight: 900;
+	color: #26c17e; /*sharmrock*/
+}
+
+
+.education-list {
+	overflow: scroll;
+	overflow-x: hidden;
+	max-height: 335px;
+	box-sizing: border-box;
+	background-color: red;
+	position: relative;
+}
+
+.education-list .year {
+	width: 10%;
+	float: left;
+}
+
+.education-list .year time, .education-list .description h3 {
+	font: 16px/19px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+	font-weight: 900;
+}
+
+.education-list .year time:FIRST-CHILD:AFTER {
+	content: '';
+	display: block;
+	position: absolute;
+	left: 2%;
+	background-color: black;
+	width: 10px;
+	height: 100%;
+}
+
+.education-list .description {
+	float: left;
+	width: 90%;
+	padding: 15px 10px;
+	margin: 0 0 10px;
+	box-sizing: border-box;
+	background-color: #ddd;
+	position: relative;
+}
+
+.education-list .description h3 {
+	margin: 0 0 5px;
+}
+
+.education-list .description .arrow {
+	display: block;
+	position: absolute;
+	background-color: #ddd;
+	width: 15px;
+	height: 15px;
+	left: -8px;
+	content: '';
+}
+
+.rotate45 {
+	-moz-transform: rotate(45deg); 
+    -ms-transform: rotate(45deg); 
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg); 
+    transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+
+
+.experience-list h3, p {
+	margin: 0;
+}
+
+.experience-list h3 {
+	font: 16px/19px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+	font-weight: 900;
+}
+
+.experience-list .place {
+	width: 15%;
+	float: left;
+}
+
+.experience-list .position {
+	width: 85%;
+	float: left;
+}
+
+.experience-list .position::AFTER {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.experience-list li {
+	border-top: 1px dashed #26c17e; /*sharmrock*/
+	padding: 15px 0;
+}
+
+.experience-list li:FIRST-CHILD {
+	padding-top: 0;
+	border-top: none;
+}
+
+
+.skills-list li {
+	margin: 0 0 10px;
+	display: block;
+}
+
+/********* custom progress bar ********/
+.skill-progress {
+	display: inline-block;
+	padding: 6px 10px;
+	box-sizing: border-box;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	background-color: #26c17e; /* sharmrock*/
+	font-size: 18px;
+}
+
+.skill-progress.low {
+	width: 25%;
+}
+
+.skill-progress.normal {
+	width: 50%;
+}
+
+.skill-progress.good {
+	width: 75%;
+}
+
+.skill-progress.excelent {
+	width: 100%;
+}
+
+/********* END custom progress bar ********/
+
+/****** progress levels scale *****/
+
+.levels-scale {
+	position: relative;
+	height: 28px;
+}
+
+.levels-scale .level {
+	display: inline-block;
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	border-top: none;
+	position: absolute;
+	height: 8px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.levels-scale .level>span {
+	position: absolute;
+	right: 0;
+	bottom: -20px;
+	font-size: 14px;
+}
+
+.levels-scale .level:FIRST-CHILD>span {
+	left: 0;
+	right: 100%;
+}
+
+.levels-scale .level.beginner {
+	width: 100%;
+}
+
+.levels-scale .level.proficient {
+	width: 25%;
+}
+
+.levels-scale .level.expert {
+	width: 75%;
+}
+
+.levels-scale .level.master {
+	width: 100%;
+}
+
+/******* END progress levels scale *******/
+
+.portfolio-list {
+	clear: both;
+}
+
+.portfolio-list .portfolio-content {
+	width: 300px;
+	height: 200px;
+	position: relative;
+	clear: both;
+}
+
+.portfolio-list li {
+	float: left;
+	margin: 0 20px 20px 0;
+}
+
+.portfolio-list li:nth-child(even):after {
+	content: '';
+	clear: both;
+	float: none;
+	display: block;
+}
+
+.portfolio-list .portfolio-content > img {
+	width: 100%;
+	height: 100%;
+	background-color: red;
+	position: absolute;
+}
+
+.portfolio-list .portfolio-content:HOVER > .portfolio-hidden-content {
+	height: 100%;
+}
+
+.portfolio-list .portfolio-content > .portfolio-hidden-content {
+	position: absolute;
+	overflow: hidden;
+	width: 100%;
+	height: 0;
+	bottom: 0;
+}
+
+.portfolio-hidden-content {
+	color: #fff;
+}
+
+
+
+
