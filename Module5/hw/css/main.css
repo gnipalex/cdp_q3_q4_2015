@@ -21,6 +21,11 @@ ul li {
 	list-style: none;
 }
 
+a {
+	color: #26c17e;
+	text-decoration: none;
+}
+
 .nomargin {
 	margin: 0;
 }
@@ -143,6 +148,7 @@ body.index-page {
 
 .tabs li:HOVER {
 	color: #26c17e;
+	cursor: pointer;
 }
 
 .tabs li .fa:BEFORE {
@@ -167,8 +173,6 @@ body.index-page {
 
 .content-wrapper {
 	max-width: 900px;
-/*  	margin: 0 auto;  */
-/* 	background-color: rgba(101, 242, 217, 0.14); */
 }
 
 /* configure block with profile photo and name 
@@ -199,48 +203,50 @@ body.index-page {
 	color: #26c17e; /*sharmrock*/
 }
 
-
+/******** education list *******/
 .education-list {
+	box-sizing: border-box;
 	overflow: scroll;
 	overflow-x: hidden;
 	max-height: 335px;
-	box-sizing: border-box;
-	background-color: red;
+}
+
+.education-list li {
 	position: relative;
 }
 
+/* year column with vertical line made of gradient fill */
 .education-list .year {
+	position: absolute;
+	top: 0;
+	bottom: 0;
 	width: 10%;
-	float: left;
+	background: linear-gradient(90deg, #fff 0%, #fff 30%, #26c17e 30%, #26c17e 40%, #fff 40%);
 }
 
-.education-list .year time, .education-list .description h3 {
-	font: 16px/19px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+.education-list .year time {
+	display: inline-block;
+	padding: 12px 0;
+	margin: 0 0 0 15%;
+	background-color: #fff;
+	font: 14px/16px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
 	font-weight: 900;
 }
 
-.education-list .year time:FIRST-CHILD:AFTER {
-	content: '';
-	display: block;
-	position: absolute;
-	left: 2%;
-	background-color: black;
-	width: 10px;
-	height: 100%;
-}
-
 .education-list .description {
-	float: left;
-	width: 90%;
+	position: relative;
+	float: right;
 	padding: 15px 10px;
 	margin: 0 0 10px;
 	box-sizing: border-box;
+	width: 90%;
 	background-color: #ddd;
-	position: relative;
 }
 
 .education-list .description h3 {
 	margin: 0 0 5px;
+	font: 16px/19px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+	font-weight: 900;
 }
 
 .education-list .description .arrow {
@@ -249,7 +255,7 @@ body.index-page {
 	background-color: #ddd;
 	width: 15px;
 	height: 15px;
-	left: -8px;
+	left: -7px;
 	content: '';
 }
 
@@ -259,10 +265,11 @@ body.index-page {
     -webkit-transform: rotate(45deg);
     -o-transform: rotate(45deg); 
     transform: rotate(45deg);
-	transform: rotate(45deg);
 }
 
-
+.detail-block h3, .detail-block h3 p {
+	margin: 0;
+}
 
 .experience-list h3, p {
 	margin: 0;
@@ -284,9 +291,9 @@ body.index-page {
 }
 
 .experience-list .position::AFTER {
-	content: '';
 	display: block;
 	clear: both;
+	content: '';
 }
 
 .experience-list li {
@@ -299,7 +306,7 @@ body.index-page {
 	border-top: none;
 }
 
-
+/****** skills list ******/
 .skills-list li {
 	margin: 0 0 10px;
 	display: block;
@@ -315,7 +322,8 @@ body.index-page {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	background-color: #26c17e; /* sharmrock*/
-	font-size: 18px;
+	font-size: 17px;
+	color: #fff;
 }
 
 .skill-progress.low {
@@ -333,11 +341,9 @@ body.index-page {
 .skill-progress.excelent {
 	width: 100%;
 }
-
 /********* END custom progress bar ********/
 
 /****** progress levels scale *****/
-
 .levels-scale {
 	position: relative;
 	height: 28px;
@@ -345,14 +351,14 @@ body.index-page {
 
 .levels-scale .level {
 	display: inline-block;
+	position: absolute;
+	box-sizing: border-box;
 	border-left: 1px solid black;
 	border-bottom: 1px solid black;
 	border-right: 1px solid black;
 	border-top: none;
-	position: absolute;
 	height: 8px;
 	width: 100%;
-	box-sizing: border-box;
 }
 
 .levels-scale .level>span {
@@ -382,55 +388,128 @@ body.index-page {
 .levels-scale .level.master {
 	width: 100%;
 }
-
 /******* END progress levels scale *******/
 
-.portfolio-list {
-	clear: both;
-}
-
-.portfolio-list .portfolio-content {
+/******** portfolio list **********/
+.portfolio-content {
+	position: relative;
 	width: 300px;
 	height: 200px;
-	position: relative;
-	clear: both;
 }
 
 .portfolio-list li {
 	float: left;
-	margin: 0 20px 20px 0;
+	margin: 0 4px 12px 0;
 }
 
-.portfolio-list li:nth-child(even):after {
-	content: '';
+.portfolio-list li:nth-child(even):AFTER {
 	clear: both;
 	float: none;
 	display: block;
+	content: '';
 }
 
 .portfolio-list .portfolio-content > img {
+	position: absolute;
 	width: 100%;
 	height: 100%;
-	background-color: red;
-	position: absolute;
+	background-color: #1a7;
 }
 
-.portfolio-list .portfolio-content:HOVER > .portfolio-hidden-content {
-	height: 100%;
-}
-
-.portfolio-list .portfolio-content > .portfolio-hidden-content {
+.portfolio-list .portfolio-hidden-content {
 	position: absolute;
 	overflow: hidden;
-	width: 100%;
+	box-sizing: border-box;
+	border: 1px solid #26c17e; /* sharmrock*/
 	height: 0;
 	bottom: 0;
+	width: 100%;
+	color: #26c17e;
 }
 
-.portfolio-hidden-content {
+.portfolio-list .portfolio-hidden-content > h4 {
+	margin: 0;
+	font: 15px/18px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+	font-weight: 900;
+}
+
+.portfolio-list .portfolio-hidden-content > p {
+	margin: 10px 0;
 	color: #fff;
 }
 
+.portfolio-list .portfolio-content:HOVER .portfolio-hidden-content {
+	padding: 17px;
+	height: 100%;
+}	
+
+.portfolio-nav ul li {
+	display: inline-block;
+	font: 500 16px/19px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+	color: #26c17e;
+	cursor: pointer;
+}
+
+.portfolio-nav ul li.active {
+	color: #000;
+}
+
+.portfolio-nav ul li:AFTER {
+	content: ' /';
+}
+
+.portfolio-nav ul li:LAST-CHILD:AFTER {
+	content: '';
+}
+
+/******* contacts list ********/
+.contacts-list .icon, .contacts-list .detail {
+	float: left;
+	height: 78px;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+.contacts-list .icon {
+	width: 84px;
+	text-align: center;
+}
+
+.contacts-list .icon .fa {
+}
+
+.contacts-list .detail {
+	text-align: left;
+}
+
+.contacts-list .detail h4, .contacts-list .detail p {
+	margin: 0;
+}
+
+/************** feedback list ***********/
+figure.feedback {
+	margin: 0 0 50px;
+}
+
+figure.feedback .author {
+	vertical-align: middle;
+	height: 50px;
+}
+figure.feedback .author > img {
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+}
+
+figure.feedback p {
+	padding: 15px; 
+	background-color: #ddd;
+}
+
+figure.feedback cite {
+	height: 50px;
+	font: 12px/50px 'Open Sans Light', 'open_sansregular', 'Arial', 'Tahoma', 'sans-serif';
+}
 
 
 
