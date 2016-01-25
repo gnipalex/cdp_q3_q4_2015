@@ -1,8 +1,19 @@
 body {
+	min-width: 400px;
 	padding: 0;
 	margin: 0;
 	font: 14px/1.3em 'Open Sans', 'open_sansregular', 'Arial', 'Tahoma', 'sans-serif';
 	color: #000;
+}
+
+/******* body styles for mobile screen ***********/
+@media screen and (max-width: 600px) {
+	
+	body {
+		font-size: 12px;
+        line-height: 15px;
+	}
+		
 }
 
 header, footer, nav, article, main {
@@ -24,6 +35,10 @@ ul li {
 a {
 	color: #26c17e;
 	text-decoration: none;
+}
+
+a:HOVER {
+	text-decoration: underline;
 }
 
 .nomargin {
@@ -66,7 +81,6 @@ ul.clear-items li:AFTER {
 }
 
 /********************* index page *********************/
-
 body.index-page {
 	background-image: url("../images/main_background.jpg");
 	background-attachment: scroll;
@@ -77,10 +91,22 @@ body.index-page {
 .index-page .container {
 	position: absolute;
 	width: 470px;
+	height: 400px;
 	top: 50%;
 	left: 50%;
 	margin-left: -235px;
 	margin-top: -200px;
+}
+
+
+/************** make index page container smaller for mobile screen *************/
+@media screen and (max-width: 600px) {
+	.index-page .container {
+		width: 350px;
+		height: 450px;
+		margin-left: -175px;
+		margin-top: -225px;
+	}
 }
 
 /* block with profile photo and caption */
@@ -102,21 +128,34 @@ body.index-page {
 
 
 /* block with profile description */
-.profile-description h3, 
+.profile-description h2, 
 .profile-description p, 
 .actions {
 	text-align: center;
 	margin: 10px 0 0;
+	word-break: break-word;
 }
 
-.profile-description h3 {
+.profile-description h2 {
 	font: 30px/33px 'Open Sans', 'open_sansregular', 'Arial', 'Tahoma', 'sans-serif';
 }
 
-
+/*********** make simple person block smaller for mobile screen ***********/ 
+@media screen and (max-width: 600px) {
+	
+	.simple-person-block h1 {
+		font-size: 40px;
+		line-height: 44px;	
+	}
+	
+	.profile-description h2 {
+		font-size: 26px;
+		line-height: 29px;
+	}
+	
+}
 
 /*****************  inner page ********************/
-
 .sidebar {
 	width: 250px;
 	background: #000614;
@@ -127,9 +166,17 @@ body.index-page {
 
 .sidebar .menu-button {
 	position: absolute;
-	top: 5px;
-	right: -40px;
-	padding: 8px 8px;
+    top: 5px;
+    border-radius: 0 5px 5px 0;
+}
+
+.nav-button {
+	padding: 8px 10px;
+	right: -37px;
+}
+
+.nav-button .fa:BEFORE {
+	font-size: 20px;
 }
 
 .tabs {
@@ -166,25 +213,33 @@ body.index-page {
 
 .inner-page .container {
 	width: calc(100% - 250px);
-	float: right;
+	margin-left: 250px;
 	padding: 0 40px;
 	box-sizing: border-box;
+	height: 100%;
 }
 
-.content-wrapper {
+.inner-page .content-wrapper {
+	position: relative;
 	max-width: 900px;
+}
+
+.back-to-top-button {
+	position: absolute;
+	bottom: -40px;
+    right: -40px;
 }
 
 /* configure block with profile photo and name 
 	to be smaller */
-.simple-person-block.small .photo {
+.sidebar .simple-person-block .photo {
 	width: 100px;
 	height: 100px;
 	border-radius: 50px;
 	margin: 15px auto 0;
 }
 
-.simple-person-block.small h1 {
+.sidebar .simple-person-block h1 {
 	text-align: center;
 	margin: 12px 0 0;
 	font: 17px/22px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
@@ -192,6 +247,39 @@ body.index-page {
 	color: #feffff;
 }
 
+/****** menu and content styles for mobile screen ******/
+@media screen and (max-width: 600px) {
+
+	.inner-page .container {
+		margin-left: 65px;
+		width: calc(100% - 65px);
+	}
+	
+	.sidebar {
+		width: 65px;
+	}
+	
+	.sidebar .simple-person-block .photo {
+		width: 90%;
+		height: 90%;
+	}
+	
+	.sidebar .simple-person-block h1 {
+		display: none;
+	}
+	
+	.tabs li .tab-text {
+		display: none;
+	}
+	
+	.sidebar .actions .btn .btn-text {
+		display: none;
+	}
+	
+}
+
+
+/**** article general styles *****/
 .details-article {
 	margin: 40px 0 0;
 }
@@ -221,7 +309,7 @@ body.index-page {
 	top: 0;
 	bottom: 0;
 	width: 10%;
-	background: linear-gradient(90deg, #fff 0%, #fff 30%, #26c17e 30%, #26c17e 40%, #fff 40%);
+	background: linear-gradient(90deg, #fff 0%, #fff 30%, #26c17e 30%, #26c17e 35%, #fff 35%);
 }
 
 .education-list .year time {
@@ -267,6 +355,46 @@ body.index-page {
     transform: rotate(45deg);
 }
 
+/****** education list styles for mobile screen ******/
+/****** need to adapt columns width for certain screen sizes ********/
+@media screen and (max-width: 900px) {
+	
+	.education-list .year {
+		width: 15%;
+	}
+	
+	.education-list .description {
+		width: 85%;
+	}
+	
+}
+
+@media screen and (max-width: 700px) {
+	
+	.education-list .year {
+		width: 20%;
+	}
+	
+	.education-list .description {
+		width: 80%;
+	}
+	
+}
+
+@media screen and (max-width: 450px) {
+	
+	.education-list .year {
+		width: 25%;
+	}
+	
+	.education-list .description {
+		width: 75%;
+	}
+	
+}
+
+
+/******** experience list styles ***********/
 .detail-block h3, .detail-block h3 p {
 	margin: 0;
 }
@@ -297,13 +425,38 @@ body.index-page {
 }
 
 .experience-list li {
-	border-top: 1px dashed #26c17e; /*sharmrock*/
+	border-top: 2px dashed #26c17e; /*sharmrock*/
 	padding: 15px 0;
 }
 
 .experience-list li:FIRST-CHILD {
 	padding-top: 0;
 	border-top: none;
+}
+
+@media screen and (max-width: 750px) { 
+	
+	.experience-list .place {
+		width: 20%;
+	}
+	
+	.experience-list .position {
+		width: 80%;
+	}
+	
+}
+
+/****** experience list styles for mobile screen ******/
+@media screen and (max-width: 600px) {
+	
+	.experience-list .place {
+		width: 25%;
+	}
+	
+	.experience-list .position {
+		width: 75%;
+	}
+	
 }
 
 /****** skills list ******/
@@ -324,6 +477,9 @@ body.index-page {
 	background-color: #26c17e; /* sharmrock*/
 	font-size: 17px;
 	color: #fff;
+	transition-delay: .5s;
+	transition-property: width;
+	transition-duration: 1s;
 }
 
 .skill-progress.low {
@@ -353,11 +509,9 @@ body.index-page {
 	display: inline-block;
 	position: absolute;
 	box-sizing: border-box;
-	border-left: 1px solid black;
-	border-bottom: 1px solid black;
-	border-right: 1px solid black;
+	border: 1px solid #ddd;
 	border-top: none;
-	height: 8px;
+	height: 6px;
 	width: 100%;
 }
 
@@ -366,6 +520,7 @@ body.index-page {
 	right: 0;
 	bottom: -20px;
 	font-size: 14px;
+	color: #ddd;
 }
 
 .levels-scale .level:FIRST-CHILD>span {
@@ -391,12 +546,6 @@ body.index-page {
 /******* END progress levels scale *******/
 
 /******** portfolio list **********/
-.portfolio-content {
-	position: relative;
-	width: 300px;
-	height: 200px;
-}
-
 .portfolio-list li {
 	float: left;
 	margin: 0 4px 12px 0;
@@ -407,6 +556,12 @@ body.index-page {
 	float: none;
 	display: block;
 	content: '';
+}
+
+.portfolio-list .portfolio-content {
+	position: relative;
+	width: 300px;
+	height: 200px;
 }
 
 .portfolio-list .portfolio-content > img {
@@ -420,11 +575,12 @@ body.index-page {
 	position: absolute;
 	overflow: hidden;
 	box-sizing: border-box;
-	border: 1px solid #26c17e; /* sharmrock*/
 	height: 0;
 	bottom: 0;
 	width: 100%;
 	color: #26c17e;
+	-moz-transition: height 1s;
+	transition: height 1s;
 }
 
 .portfolio-list .portfolio-hidden-content > h4 {
@@ -441,6 +597,9 @@ body.index-page {
 .portfolio-list .portfolio-content:HOVER .portfolio-hidden-content {
 	padding: 17px;
 	height: 100%;
+	border: 1px solid #26c17e; /* sharmrock*/
+	-moz-transition: height 1s;
+	transition: height .5s;
 }	
 
 .portfolio-nav ul li {
@@ -456,15 +615,25 @@ body.index-page {
 
 .portfolio-nav ul li:AFTER {
 	content: ' /';
+	color: #000;
 }
 
 .portfolio-nav ul li:LAST-CHILD:AFTER {
 	content: '';
 }
 
+/********* portfolio styles for mobile screen **********/
+@media screen and (max-width: 460px) {
+	
+	.portfolio-list .portfolio-content {
+		width: 270px;
+		height: 180px;
+	}
+	
+}
+
 /******* contacts list ********/
 .contacts-list .icon, .contacts-list .detail {
-	float: left;
 	height: 78px;
 	vertical-align: middle;
 	display: table-cell;
@@ -473,43 +642,81 @@ body.index-page {
 .contacts-list .icon {
 	width: 84px;
 	text-align: center;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	color: #26c17e;
 }
 
-.contacts-list .icon .fa {
+.contacts-list li:LAST-CHILD .icon {
+	border-bottom: none;
+}
+
+.contacts-list .icon .fa:BEFORE {
+	font-size: 28px;
 }
 
 .contacts-list .detail {
+	padding-left: 8px;
 	text-align: left;
+	word-break: break-all;
+}
+
+.contacts-list .detail h4 {
+	font-weight: 900;
 }
 
 .contacts-list .detail h4, .contacts-list .detail p {
 	margin: 0;
 }
 
+.contacts-list .detail p {
+	color: #bbb;
+}
+
 /************** feedback list ***********/
-figure.feedback {
+.feedback {
 	margin: 0 0 50px;
 }
 
-figure.feedback .author {
+.feedback .author {
 	vertical-align: middle;
 	height: 50px;
 }
-figure.feedback .author > img {
+.feedback .author > .photo {
+	display: table-cell;
+	position: relative;
 	width: 50px;
 	height: 50px;
-	border-radius: 25px;
 }
 
-figure.feedback p {
+.feedback .author > .photo img {
+	position: absolute;
+	top: -8px;
+	width: 100%;
+	border-radius: 50%;
+	border: 2px solid #fff;
+}
+
+.feedback .author > .detail { 
+	display: table-cell;
+	padding: 8px 0 0 8px;
+}
+
+.feedback p {
 	padding: 15px; 
 	background-color: #ddd;
 }
 
-figure.feedback cite {
-	height: 50px;
-	font: 12px/50px 'Open Sans Light', 'open_sansregular', 'Arial', 'Tahoma', 'sans-serif';
+.feedback .author cite {
+	font: 12px 'Open Sans Light', 'open_sansregular', 'Arial', 'Tahoma', 'sans-serif';
 }
-
-
+ 
+@keyframe  portfolio-animation {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
 

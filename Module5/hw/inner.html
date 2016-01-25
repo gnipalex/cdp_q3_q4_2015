@@ -12,11 +12,11 @@
 
 <body class="inner-page">
 	
-	<nav class="sidebar">
+	<aside class="sidebar">
 	
-		<div class="simple-person-block small">
+		<div class="simple-person-block">
 			<img class="photo" alt="Oleksandr Hnyp"
-				src="images/personal_photo.jpg" />
+				src="images/personal_photo_small.jpg" />
 			<h1>Oleksandr Hnyp</h1>
 		</div>
 		
@@ -51,14 +51,19 @@
 			</li>
 		</ul>
 		
-		<section class="actions">
+		<div class="actions">
 			<a href="index.html">
-				<button class="btn">&lt; Go Back</button>
+				<button class="btn">
+					<span class="fa fa-chevron-left"></span>
+				 	<span class="btn-text">Go Back</span>
+				 </button>
 			</a>
-		</section>
+		</div>
 		
-		<button class="btn menu-button">M</button>
-	</nav>
+		<button class="btn nav-button menu-button">
+			<span class="fa fa-bars"></span>
+		</button>
+	</aside>
 	
 	<main class="container">
 		<div class="content-wrapper">
@@ -169,7 +174,6 @@
 						</div>
 					</li>
 				</ul>
-				
 			</article>
 			<article class="details-article">
 				<h1>Experience</h1>
@@ -214,7 +218,6 @@
 						</div>
 					</li>
 				</ul>
-				
 			</article>
 			<article class="details-article">
 				<h1>Skills</h1>
@@ -254,7 +257,7 @@
 				<ul class="portfolio-list clear-list clearfix nomargin">
 					<li>
 						<div class="portfolio-content">
-							<img alt="portfolio image" src="" />
+							<img alt="portfolio image" src="images/code.jpg" />
 							<div class="portfolio-hidden-content overlay">
 								<h4>Some text</h4>
 								<p>Nemo enim ipsam voluptatem quia voluptas sit
@@ -267,7 +270,7 @@
 					</li>
 					<li>
 						<div class="portfolio-content">
-							<img alt="portfolio image" src="" />
+							<img alt="portfolio image" src="images/ui.jpg" />
 							<div class="portfolio-hidden-content overlay">
 								<h4>Some text</h4>
 								<p>Nemo enim ipsam voluptatem quia voluptas sit
@@ -280,7 +283,7 @@
 					</li>
 					<li>
 						<div class="portfolio-content">
-							<img alt="portfolio image" src="" />
+							<img alt="portfolio image" src="images/ui.jpg" />
 							<div class="portfolio-hidden-content overlay">
 								<h4>Some text</h4>
 								<p>Nemo enim ipsam voluptatem quia voluptas sit
@@ -293,7 +296,7 @@
 					</li>
 					<li>
 						<div class="portfolio-content">
-							<img alt="portfolio image" src="" />
+							<img alt="portfolio image" src="images/code.jpg" />
 							<div class="portfolio-hidden-content overlay">
 								<h4>Some text</h4>
 								<p>Nemo enim ipsam voluptatem quia voluptas sit
@@ -358,37 +361,57 @@
 				<h1>Feedbacks</h1>
 				<ul class="feedback-list clear-items nomargin">
 					<li>
-						<figure class="feedback">
+						<blockquote class="feedback">
 							<p>Even all the powerfool pointing has no control about the blind text it 
 								is an almost unorphographic life...</p>
 							<div class="author">
-								<img alt="Martin Friman" src="" />
-								<cite>Martin Friman Programmer, <a href="#">some link</a></cite>
+								<div class="photo">
+									<img alt="Martin Friman" src="images/portrait_icon.jpg" />
+								</div>
+								<div class="detail">
+									<cite>Martin Friman Programmer, <a href="#">some link</a></cite>
+								</div>
 							</div>
-						</figure>
+						</blockquote>
 					</li>
 					<li>
-						<figure class="feedback">
+						<blockquote class="feedback">
 							<p>Even all the powerfool pointing has no control about the blind text it 
 								is an almost unorphographic life...</p>
 							<div class="author">
-								<img alt="Martin Friman" src="" />
-								<cite>Martin Friman Programmer, <a href="#">some link</a></cite>
+								<div class="photo">
+									<img alt="Martin Friman" src="images/portrait_icon.jpg" />
+								</div>
+								<div class="detail">
+									<cite>Martin Friman Programmer, <a href="#">some link</a></cite>
+								</div>
 							</div>
-						</figure>
-					</li>										
+						</blockquote>
+					</li>
 					<li>
-						<figure class="feedback">
+						<blockquote class="feedback">
 							<p>Even all the powerfool pointing has no control about the blind text it 
+								is an almost unorphographic life... Even all the powerfool pointing has no control about the blind text it 
+								is an almost unorphographic life... Even all the powerfool pointing has no control about the blind text it 
 								is an almost unorphographic life...</p>
 							<div class="author">
-								<img alt="Martin Friman" src="" />
-								<cite>Martin Friman Programmer, <a href="#">some link</a></cite>
+								<div class="photo">
+									<img alt="Martin Friman" src="images/portrait_icon.jpg" />
+								</div>
+								<div class="detail">
+									<cite>Martin Friman Programmer, <a href="#">some link</a></cite>
+								</div>
 							</div>
-						</figure>
+						</blockquote>
 					</li>					
 				</ul>
 			</article>
+			
+			<!-- this button needs to be aligned -->
+			<button class="btn nav-button back-to-top-button">
+				<span class="fa fa-chevron-up"></span>
+			</button>
+			
 		</div>
 	</main>
 	
