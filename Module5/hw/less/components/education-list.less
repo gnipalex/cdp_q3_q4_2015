@@ -1,0 +1,92 @@
+.education-list {
+	box-sizing: border-box;
+	overflow: scroll;
+	overflow-x: hidden;
+	max-height: 335px;
+    
+    li {
+        position: relative;
+    }
+    
+    .year {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 10%;
+        /* year column with vertical line made of gradient fill */
+        background: linear-gradient(90deg, #fff 0%, #fff 30%, #26c17e 30%, #26c17e 35%, #fff 35%);
+        
+        time {
+            display: inline-block;
+            padding: 12px 0;
+            margin: 0 0 0 15%;
+            background-color: #fff;
+            font: 14px/16px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+            font-weight: 900;
+        }
+    }
+    
+    .description {
+        position: relative;
+        float: right;
+        padding: 15px 10px;
+        margin: 0 0 10px;
+        box-sizing: border-box;
+        width: 90%;
+        background-color: #ddd;
+        
+        h3 {
+            margin: 0 0 5px;
+            font: 16px/19px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+            font-weight: 900;
+        }
+        
+        p {
+            margin: 0;
+        }
+        
+        .arrow {
+            display: block;
+            position: absolute;
+            background-color: #ddd;
+            width: 15px;
+            height: 15px;
+            left: -7px;
+            content: '';
+        }
+    }
+
+}
+
+@media screen and (max-width: 900px) {
+	.education-list {
+        .year {
+            width: 15%;
+        }
+        .description {
+            width: 85%;
+        }
+    }
+}
+
+@media screen and (max-width: 700px) {
+	.education-list {
+        .year {
+            width: 20%;
+        }
+        .description {
+            width: 80%;
+        }
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .education-list {
+        .year {
+            width: 25%;
+        }
+        .description {
+            width: 75%;
+        }
+    }
+}

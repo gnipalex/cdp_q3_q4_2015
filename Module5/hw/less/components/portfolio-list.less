@@ -1,0 +1,13 @@
+.portfolio-list {
+    li {
+        float: left;
+        margin: 0 4px 12px 0;
+        
+        &:nth-child(even):after {
+            clear: both;
+            float: none;
+            display: block;
+            content: '';
+        }
+    }
+}

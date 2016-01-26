@@ -1,0 +1,39 @@
+/* block with profile photo and caption */
+.simple-person-block {
+    .photo {
+        margin: 0 auto;
+        width: 200px;
+        height: 200px;
+        display: block;
+        border-radius: 100px;
+        border: 2px solid #fff;
+    }
+    
+    h1 {
+        text-align: center;
+        margin: 10px 0 0;
+        font: 45px/48px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+        font-weight: 700;
+    }
+}
+
+/* configure block with profile photo and name 
+ * to be smaller when displaying in sidebar */
+.sidebar  {
+    .simple-person-block {
+        .photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            margin: 15px auto 0;
+        }
+        
+        h1 {
+            text-align: center;
+            margin: 12px 0 0;
+            font: 17px/22px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+            font-weight: 800;
+            color: #feffff;
+        }
+    } 
+}

@@ -1,0 +1,89 @@
+body {
+	min-width: 400px;
+	padding: 0;
+	margin: 0;
+	font: 14px/1.3em 'Open Sans', 'open_sansregular', 'Arial', 'Tahoma', 'sans-serif';
+	color: #000;
+}
+
+/******* body styles for mobile screen ***********/
+@media screen and (max-width: 600px) {
+	
+	body {
+		font-size: 12px;
+        line-height: 15px;
+	}
+		
+}
+
+header, footer, nav, article, main {
+	display:block;
+}
+
+p {
+	text-align: left;
+}
+
+ul {
+	padding: 0;
+}
+
+ul li {
+	list-style: none;
+}
+
+a {
+	color: #26c17e;
+	text-decoration: none;
+}
+
+a:HOVER {
+	text-decoration: underline;
+}
+
+.nomargin {
+	margin: 0;
+}
+
+ul.clear-items li:AFTER {
+	clear: both;
+	display: block;
+	content: '';
+}
+
+.clearfix:BEFORE, .clearfix:AFTER {
+	clear: both;
+	display: block;
+	content: '';
+}
+
+.btn {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	background-color: #000614;
+	color: #fff;
+	font: inherit;
+	
+	&:hover {
+		background-color: #26c17e;
+		cursor: pointer;
+	}
+}
+
+.overlay {
+	background-color: rgba(0,0,0,0.7);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+}
+
+.rotate45 {
+	-moz-transform: rotate(45deg); 
+    -ms-transform: rotate(45deg); 
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg); 
+    transform: rotate(45deg);
+}

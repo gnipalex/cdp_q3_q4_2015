@@ -1,0 +1,48 @@
+.levels-scale {
+	position: relative;
+	height: 28px;
+    
+    .level {
+        display: inline-block;
+        position: absolute;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-top: none;
+        height: 6px;
+        width: 100%;
+        
+        & > span {
+            position: absolute;
+            right: 0;
+            bottom: -20px;
+            font-size: 14px;
+            color: #ddd;
+        }
+        
+        &:first-child > span {
+            left: 0;
+            right: 100%;
+        }        
+    }
+    
+}
+
+/*set of constants*/
+.levels-scale {
+
+    .level{
+        &.beginner {
+            width: 100%;
+        }
+        &.proficient {
+            width: 25%;
+        }
+        &.expert {
+            width: 75%;
+        }
+        &.master {
+            width: 100%;
+        }
+    }
+    
+}

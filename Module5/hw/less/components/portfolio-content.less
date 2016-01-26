@@ -1,0 +1,92 @@
+.portfolio-content {
+	position: relative;
+	width: 300px;
+	height: 200px;
+    
+    & > img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #1a7;
+    }
+    
+    &:hover {
+        .portfolio-hidden-content {
+            border: 1px solid #26c17e;
+            height: 100%;
+            -moz-transition: height .5s;
+            transition: height .5s;
+        }
+    }
+}
+
+.portfolio-hidden-content {
+	position: absolute;
+	overflow: hidden;
+	box-sizing: border-box;
+	border: 1px solid #26c17e;
+	/* need to hide border top and bottom because it breaks box model
+     * and small part of this block is visible
+	*/
+	border-top: none;
+	border-bottom: none;
+	height: 0;
+	bottom: 0;
+	width: 100%;
+	color: #26c17e;
+	-moz-transition: height 1s;
+	transition: height 1s;
+
+    /* padding and box sizing do not work proper 
+     * so using margin and wrapper for hidden content */
+    .wrapper {
+        margin: 17px;
+        border: none;
+        width: calc(100% - 17px);
+        height: calc(100% - 17px);
+    }
+    
+    h4 {
+        margin: 0;
+        font: 15px/18px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+        font-weight: 900;
+    }
+    
+    p {
+        margin: 10px 0;
+        color: #fff;
+    }
+    
+}	
+
+.portfolio-nav {
+    ul {
+        li {
+            display: inline-block;
+            font: 500 16px/19px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+            color: #26c17e;
+            cursor: pointer;
+            
+            &.active {
+                color: #000;
+            }
+            
+            &:after {
+                content: ' /';
+                color: #000;
+            }
+            
+            &:last-child:after {
+                content: '';
+            }
+        }
+    } 
+}
+
+/********* portfolio styles for mobile screen **********/
+@media screen and (max-width: 460px) {
+	.portfolio-content {
+		width: 270px;
+		height: 180px;
+	}
+}

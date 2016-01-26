@@ -1,0 +1,32 @@
+/********* custom progress bar ********/
+.skill-progress {
+	display: inline-block;
+	padding: 6px 10px;
+	box-sizing: border-box;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	background-color: #26c17e; /* sharmrock*/
+	font-size: 17px;
+	color: #fff;
+	transition-delay: .5s;
+	transition-property: width;
+	transition-duration: 1s;
+}
+
+/*set of constants*/
+.skill-progress {
+    &.low {
+        width: 25%;
+    }
+    &.normal {
+        width: 50%;
+    }
+    &.good {
+        width: 75%;
+    }
+    &.excelent {
+        width: 100%;
+    }
+}

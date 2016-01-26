@@ -1,0 +1,41 @@
+.contacts-list {
+    .icon, .detail {
+        height: 78px;
+        vertical-align: middle;
+        display: table-cell;
+    }
+    
+    .icon {
+        width: 84px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        color: #26c17e;
+        
+        .fa:before {
+            font-size: 28px;
+        }
+    }
+    
+    li:last-child .icon {
+        border-bottom: none;
+    }
+    
+    .detail {
+        padding-left: 8px;
+        text-align: left;
+        word-break: break-all;
+        
+        h4 {
+            font-weight: 900;
+        }
+        
+        h4, p {
+            margin: 0;
+        }
+        
+        p {
+            color: #bbb;
+        }
+    }
+}

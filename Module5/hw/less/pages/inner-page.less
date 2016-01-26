@@ -1,0 +1,26 @@
+.inner-page {
+
+    .container {
+        width: calc(~"100% - 250px");
+        margin-left: 250px;
+        padding: 0 40px;
+        box-sizing: border-box;
+        height: 100%;
+    }  
+    
+    .content-wrapper {
+        position: relative;
+        max-width: 900px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+	.inner-page {
+        .container {
+            margin-left: 65px;
+            width: calc(~"100% - 65px");
+        }
+	}
+    
+}

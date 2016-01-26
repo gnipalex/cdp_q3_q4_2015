@@ -1,0 +1,57 @@
+.experience-list h3, .experience-list p {
+	margin: 0;
+}
+
+.experience-list {
+    h3 {
+        font: 16px/19px 'Open Sans', 'open_sansbold', 'Arial', 'Tahoma', 'sans-serif';
+        font-weight: 900;
+    }
+    .place {
+        width: 15%;
+        float: left;
+    }
+    .position {
+        width: 85%;
+        float: left;
+        
+        &:after {
+            display: block;
+            clear: both;
+            content: '';
+        }
+    }
+    
+    li {
+        border-top: 2px dashed #26c17e; /*sharmrock*/
+        padding: 15px 0;
+        
+        &:first-child {
+            padding-top: 0;
+            border-top: none;
+        }
+    }
+}
+
+@media screen and (max-width: 750px) { 
+	.experience-list { 
+        .place {
+            width: 20%;
+        }
+        .position {
+            width: 80%;
+        }
+    }
+}
+
+/****** experience list styles for mobile screen ******/
+@media screen and (max-width: 600px) {
+	.experience-list { 
+        .place {
+            width: 25%;
+        }
+        .position {
+            width: 75%;
+        }
+    }
+}
