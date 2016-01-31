@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-4.1.xsd
+                        http://camel.apache.org/schema/spring 
+                        http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <context:property-placeholder location="classpath:app.properties" />
+
+    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${app.activemq.broker.url}" />
+    </bean>
+
+    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="connectionFactory" ref="connectionFactory" />
+    </bean>
+
+    <camel:camelContext id="camelContext">
+        
+        <camel:propertyPlaceholder id="properties" location="app.properties" />
+
+        <camel:dataFormats>
+            <camel:json id="jacksonJsonMarshaller" library="Jackson" unmarshalTypeName="com.epam.cdp.hnyp.architecture.integration.producer.ArifmeticCommand" />
+        </camel:dataFormats>
+        
+        <camel:route>
+            <camel:from uri="timer://generateTimer?period={{app.messages.generateInterval}}" />
+            
+            <camel:to uri="bean:arifmeticCommandGenerator?method=generate" />
+            
+            <camel:setHeader headerName="operation">
+                <camel:simple>${in.body.operation}</camel:simple>
+            </camel:setHeader>
+            
+            <camel:marshal ref="jacksonJsonMarshaller" />
+            
+            <camel:choice>
+                <camel:when>
+                    <camel:simple>${in.header.operation} == 'add'</camel:simple>
+                    <camel:to uri="activemq:queue:{{queue.operation.add}}" pattern="InOnly" />
+                </camel:when>
+                <camel:when>
+                    <camel:simple>${in.header.operation} == 'sub'</camel:simple>
+                    <camel:to uri="activemq:queue:{{queue.operation.sub}}" pattern="InOnly" />
+                </camel:when>
+                <camel:when>
+                    <camel:simple>${in.header.operation} == 'div'</camel:simple>
+                    <camel:to uri="activemq:queue:{{queue.operation.div}}" pattern="InOnly" />
+                </camel:when>
+                <camel:when>
+                    <camel:simple>${in.header.operation} == 'mul'</camel:simple>
+                    <camel:to uri="activemq:queue:{{queue.operation.mull}}" pattern="InOnly" />
+                </camel:when>
+            </camel:choice>
+        </camel:route> 
+        
+    </camel:camelContext>
+    
+    <!-- bean that randomly generates commands objects -->
+    <bean id="arifmeticCommandGenerator" class="com.epam.cdp.hnyp.architecture.integration.producer.ArifmeticCommandGenerator">
+        <constructor-arg>
+            <list>
+                <value>add</value>
+                <value>sub</value>
+                <value>div</value>
+                <value>mul</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+</beans>
