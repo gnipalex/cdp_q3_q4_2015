@@ -24,17 +24,52 @@
 
     <camel:camelContext id="camelContext">
 
+        <camel:endpoint id="commandsQueue" uri="activemq:queue:{{queue.name}}">
+            <camel:property key="" value=""/>
+        </camel:endpoint>
+        
         <camel:dataFormats>
             <camel:json id="jacksonJsonMarshaller" library="Jackson" unmarshalTypeName="com.epam.cdp.hnyp.architecture.integration.producer.ArifmeticCommand" />
         </camel:dataFormats>
 
+        <camel:onException>
+            <camel:exception>java.lang.RuntimeException</camel:exception>
+            <camel:transform>
+                <camel:simple>Error occured : ${exception.message}</camel:simple>
+            </camel:transform>
+            <camel:to uri="stream:out" />
+            <camel:to uri="activemq:queue:{{queue.error}}" />            
+        </camel:onException>
+
         <camel:route>
-            <camel:from uri="timer://generateTimer?period=${app.messages.generateInterval}" />
-            <camel:to uri="bean:" />
-            <camel:log message="" />
+            <camel:from uri="timer://generateTimer?period={{app.messages.generateInterval}}" />
+            
+            <!-- after timer fires start reading from queue -->
+            <camel:from ref="commandsQueue" />
+            
+            <camel:unmarshal ref="jacksonJsonMarshaller" />
+
+            <!-- calculator supports different operator mapping -->
+            <camel:bean ref="arifmeticCommandBodyTransformer" method="transform" />
+            
+            <camel:to uri="bean:arifmeticCommandExecutor?method=executeCommand" />
+
+            <camel:log message="succesfuly processed" loggingLevel="INFO" />
+            
         </camel:route> 
         
     </camel:camelContext>
+    
+    <bean id="arifmeticCommandBodyTransformer" class="com.epam.cdp.hnyp.architecture.integration.consumer.ArifmeticCommandBodyTransformer">
+        <property name="operatorMapping">
+            <map>
+                <entry key="add" value="+" />
+                <entry key="sub" value="-" />
+                <entry key="div" value="/" />
+                <entry key="mul" value="*" />
+            </map>
+        </property>
+    </bean>
     
     <bean id="calculatorFactory" class="com.epam.cdp.hnyp.calculator.factory.impl.SimpleCalculatorFactory" />
     <bean id="calculator" class="com.epam.cdp.hnyp.calculator.Calculator" 
