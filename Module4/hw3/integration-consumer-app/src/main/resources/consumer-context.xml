@@ -10,7 +10,7 @@
                         http://camel.apache.org/schema/spring 
                         http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-    <context:property-placeholder location="classpath:app.properties" />
+    <context:property-placeholder location="classpath:consumer.properties" />
     
     <context:annotation-config />
 
@@ -21,30 +21,61 @@
     <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
         <property name="connectionFactory" ref="connectionFactory" />
     </bean>
+    
+    <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer">
+        <property name="logName" value="camelTracer"/>
+    </bean>
 
-    <camel:camelContext id="camelContext">
+    <camel:camelContext id="camelContext" trace="false">
+    
+        <camel:propertyPlaceholder id="properties" location="consumer.properties" />
 
-        <camel:endpoint id="commandsQueue" uri="activemq:queue:{{queue.name}}">
-            <camel:property key="" value=""/>
-        </camel:endpoint>
+        <camel:endpoint id="commandsQueue" uri="activemq:queue:{{app.message.queue.incoming}}" />
         
         <camel:dataFormats>
             <camel:json id="jacksonJsonMarshaller" library="Jackson" unmarshalTypeName="com.epam.cdp.hnyp.architecture.integration.producer.ArifmeticCommand" />
         </camel:dataFormats>
 
         <camel:onException>
+            <camel:exception>java.lang.IllegalArgumentException</camel:exception>
+            <camel:exception>java.lang.UnsupportedOperationException</camel:exception>
+            <camel:handled>
+                <camel:constant>true</camel:constant>
+            </camel:handled>
+            <camel:transform>
+                <camel:simple>Arifmetic command processing error : ${exception.message}</camel:simple>
+            </camel:transform>
+            <camel:to uri="stream:out" />
+            <camel:to uri="activemq:queue:{{app.message.queue.error}}" />         
+        </camel:onException>
+        
+        <camel:onException>
+            <camel:exception>com.fasterxml.jackson.databind.JsonMappingException</camel:exception>
+            <camel:exception>com.fasterxml.jackson.core.JsonParseException</camel:exception>
+            <camel:handled>
+                <camel:constant>true</camel:constant>
+            </camel:handled>
+            <camel:transform>
+                <camel:simple>Json format error : ${exception.message}</camel:simple>
+            </camel:transform>
+            <camel:to uri="stream:out" />
+            <camel:to uri="activemq:queue:{{app.message.queue.error}}" />
+        </camel:onException>
+        
+        <camel:onException>
             <camel:exception>java.lang.RuntimeException</camel:exception>
+            <camel:handled>
+                <camel:constant>true</camel:constant>
+            </camel:handled>
             <camel:transform>
                 <camel:simple>Error occured : ${exception.message}</camel:simple>
             </camel:transform>
             <camel:to uri="stream:out" />
-            <camel:to uri="activemq:queue:{{queue.error}}" />            
+            <camel:to uri="activemq:queue:{{app.message.queue.error}}" />
         </camel:onException>
 
         <camel:route>
-            <camel:from uri="timer://generateTimer?period={{app.messages.generateInterval}}" />
-            
-            <!-- after timer fires start reading from queue -->
+
             <camel:from ref="commandsQueue" />
             
             <camel:unmarshal ref="jacksonJsonMarshaller" />
@@ -52,9 +83,17 @@
             <!-- calculator supports different operator mapping -->
             <camel:bean ref="arifmeticCommandBodyTransformer" method="transform" />
             
+            <!-- execute command -->
             <camel:to uri="bean:arifmeticCommandExecutor?method=executeCommand" />
 
-            <camel:log message="succesfuly processed" loggingLevel="INFO" />
+            <!-- write result to console and file -->
+            <camel:to uri="stream:out" />
+            
+            <camel:setHeader headerName="CamelFileName">
+                <camel:simple>{{app.message.processed.file}}</camel:simple>
+            </camel:setHeader>
+            
+            <camel:to uri="file://{{app.message.processed.folder}}?fileExist=Append" />
             
         </camel:route> 
         

@@ -5,7 +5,11 @@ import java.util.Random;
 
 public class ArifmeticCommandGenerator {
 
+    private static final int MAX_GENERATED_INT = 1000;
+    
     private List<String> supportedOperators;
+    
+    private Random randomGenerator = new Random();
     
     public ArifmeticCommandGenerator(List<String> supportedOperators) {
         if (supportedOperators == null || supportedOperators.isEmpty()) {
@@ -15,13 +19,12 @@ public class ArifmeticCommandGenerator {
     }
     
     public ArifmeticCommand generate() {
-        Random rand = new Random();
-        int operatorIndex = rand.nextInt(supportedOperators.size());
+        int operatorIndex = randomGenerator.nextInt(supportedOperators.size());
         ArifmeticCommand command = new ArifmeticCommand();
         command.setOperation(supportedOperators.get(operatorIndex));
-        command.setInt1(rand.nextInt());
-        command.setInt2(rand.nextInt());
+        command.setInt1(randomGenerator.nextInt(MAX_GENERATED_INT));
+        command.setInt2(randomGenerator.nextInt(MAX_GENERATED_INT));
         return command;
-    }
+    }    
     
 }

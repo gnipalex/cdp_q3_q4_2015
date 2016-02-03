@@ -1,3 +1,4 @@
 *.class
 /target/
 /bin/
+node_modules

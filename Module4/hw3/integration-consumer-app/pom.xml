@@ -16,7 +16,7 @@
     </properties>
 
     <dependencies>
-    
+
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
@@ -42,7 +42,7 @@
             <artifactId>camel-jackson</artifactId>
             <version>${camel.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-camel</artifactId>
@@ -59,26 +59,30 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.12</version>
         </dependency>
-        
-        <!-- calculator dependency, 
-            if not found please run 'mvn install' in  
-            cdp_jamp_q3q4_2015\Module1\hw3\mvn-sample-app\
-        -->
+
+        <!-- calculator dependency, if not found please run 'mvn install' 
+            in cdp_jamp_q3q4_2015\Module1\hw3\mvn-sample-app\ -->
         <dependency>
-            <groupId>com.epam.cdp.hnyp</groupId>            
+            <groupId>com.epam.cdp.hnyp</groupId>
             <artifactId>mvn-sample-app</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        
+
         <!-- integration producer dependency -->
         <dependency>
             <groupId>com.epam.cdp.hnyp.architecture</groupId>
             <artifactId>integration-producer-app</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
 
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -90,7 +94,16 @@
                     <source>1.8</source>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>com.epam.cdp.hnyp.architecture.integration.consumer.Main</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-    
+
 </project>

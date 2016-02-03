@@ -1,6 +1,5 @@
 package com.epam.cdp.hnyp.architecture.integration.producer;
 
-import java.text.MessageFormat;
 
 public class ArifmeticCommand {
 
@@ -34,7 +33,7 @@ public class ArifmeticCommand {
     
     @Override
     public String toString() {
-        return MessageFormat.format("{0} {1} {2}", int1, operation, int2);
+        return String.format("%d %s %d", int1, operation, int2);
     }
     
 }

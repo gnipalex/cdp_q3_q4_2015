@@ -2,19 +2,25 @@ package com.epam.cdp.hnyp.architecture.integration.producer;
 
 import java.util.Scanner;
 
+import org.apache.camel.CamelContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
     
-    private static final String APP_CONTEXT = "app-context.xml";
+    private static final String APP_CONTEXT = "producer-context.xml";
     
     @SuppressWarnings("all")
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ApplicationContext appContext = new ClassPathXmlApplicationContext(APP_CONTEXT);
+        CamelContext camelContext = appContext.getBean("camelContext", CamelContext.class);
+        
         System.out.println("Application now is being sending generated arifmetic commands to endpoints... Press [enter] to exit");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
+        
+        camelContext.stop();
+        
         System.out.println("Application stopped on user demand.");
     }
     

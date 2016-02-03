@@ -10,7 +10,7 @@
                         http://camel.apache.org/schema/spring 
                         http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-    <context:property-placeholder location="classpath:app.properties" />
+    <context:property-placeholder location="classpath:producer.properties" />
 
     <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <property name="brokerURL" value="${app.activemq.broker.url}" />
@@ -22,46 +22,58 @@
 
     <camel:camelContext id="camelContext">
         
-        <camel:propertyPlaceholder id="properties" location="app.properties" />
+        <camel:propertyPlaceholder id="properties" location="producer.properties" />
 
         <camel:dataFormats>
             <camel:json id="jacksonJsonMarshaller" library="Jackson" unmarshalTypeName="com.epam.cdp.hnyp.architecture.integration.producer.ArifmeticCommand" />
         </camel:dataFormats>
         
         <camel:route>
-            <camel:from uri="timer://generateTimer?period={{app.messages.generateInterval}}" />
+            <camel:from uri="timer://generateTimer?period={{app.messages.sendingInterval}}" />
             
             <camel:to uri="bean:arifmeticCommandGenerator?method=generate" />
             
-            <camel:setHeader headerName="operation">
+            <!-- set operation to header to able to use after message body transformation -->
+            <camel:setHeader headerName="ARIFMETIC_OPERATION">
                 <camel:simple>${in.body.operation}</camel:simple>
             </camel:setHeader>
             
             <camel:marshal ref="jacksonJsonMarshaller" />
             
+            <!-- message routing depending on ARIFMETIC_OPERATION message header  -->
             <camel:choice>
                 <camel:when>
-                    <camel:simple>${in.header.operation} == 'add'</camel:simple>
-                    <camel:to uri="activemq:queue:{{queue.operation.add}}" pattern="InOnly" />
+                    <camel:simple>${in.header.ARIFMETIC_OPERATION} == 'add'</camel:simple>
+                    <camel:to uri="activemq:queue:{{app.message.queue.operation.add}}" pattern="InOnly" />
                 </camel:when>
                 <camel:when>
-                    <camel:simple>${in.header.operation} == 'sub'</camel:simple>
-                    <camel:to uri="activemq:queue:{{queue.operation.sub}}" pattern="InOnly" />
+                    <camel:simple>${in.header.ARIFMETIC_OPERATION} == 'sub'</camel:simple>
+                    <camel:to uri="activemq:queue:{{app.message.queue.operation.sub}}" pattern="InOnly" />
                 </camel:when>
                 <camel:when>
-                    <camel:simple>${in.header.operation} == 'div'</camel:simple>
-                    <camel:to uri="activemq:queue:{{queue.operation.div}}" pattern="InOnly" />
+                    <camel:simple>${in.header.ARIFMETIC_OPERATION} == 'div'</camel:simple>
+                    <camel:to uri="activemq:queue:{{app.message.queue.operation.div}}" pattern="InOnly" />
                 </camel:when>
                 <camel:when>
-                    <camel:simple>${in.header.operation} == 'mul'</camel:simple>
-                    <camel:to uri="activemq:queue:{{queue.operation.mull}}" pattern="InOnly" />
+                    <camel:simple>${in.header.ARIFMETIC_OPERATION} == 'mul'</camel:simple>
+                    <camel:to uri="activemq:queue:{{app.message.queue.operation.mul}}" pattern="InOnly" />
                 </camel:when>
+                <!-- queue mull also responsible for other operations execution -->
+                <camel:otherwise>
+                    <camel:to uri="activemq:queue:{{app.message.queue.operation.mul}}" pattern="InOnly" />
+                </camel:otherwise>
             </camel:choice>
         </camel:route> 
         
+        <!-- listening for error messages -->
+        <camel:route>
+            <camel:from uri="activemq:queue:{{app.message.queue.error}}" />
+            <camel:to uri="stream:out" />
+        </camel:route>
+        
     </camel:camelContext>
     
-    <!-- bean that randomly generates commands objects -->
+    <!-- bean that randomly generates command objects -->
     <bean id="arifmeticCommandGenerator" class="com.epam.cdp.hnyp.architecture.integration.producer.ArifmeticCommandGenerator">
         <constructor-arg>
             <list>
@@ -69,6 +81,7 @@
                 <value>sub</value>
                 <value>div</value>
                 <value>mul</value>
+                <value>sqrt</value>
             </list>
         </constructor-arg>
     </bean>

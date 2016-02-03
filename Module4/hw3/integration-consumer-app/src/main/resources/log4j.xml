@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+    debug="false">
+
+    <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="log/camel-test-activemq.log" />
+        <param name="Threshold" value="ALL" />
+        <param name="MaxFileSize" value="1Mb" />
+        <param name="MaxBackupIndex" value="1" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+        </layout>
+    </appender>
+
+    <logger name="camelTracer">
+        <level value="INFO" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <logger name="org.apache.camel">
+        <level value="INFO" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+</log4j:configuration>
