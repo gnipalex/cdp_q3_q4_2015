@@ -220,6 +220,15 @@
 			</article>
 			<article class="details-article">
 				<h1>Skills</h1>
+				<div>
+					<form>
+						<label>Skill name</label>
+						<input type="text" min="0" max="100" />
+						<label>Skill range</label>
+						<input type="text" />
+						<input type="submit" value="submit" /> 
+					</form>
+				</div>
 				<ul class="skills-list clear-items nomargin">
 					<li>
 						<span class="skill-progress" style="width: 75%;">HTML</span>
@@ -248,13 +257,13 @@
 				<h1>Portfolio</h1>
 				<nav class="portfolio-nav">
 					<ul>
-						<li class="active">All</li>
-						<li>Code</li>
-						<li>UI</li>
+						<li class="active" data-filter="*">All</li>
+						<li data-filter=".filter-code">Code</li>
+						<li data-filter=".filter-ui">UI</li>
 					</ul>
 				</nav>
 				<ul class="portfolio-list clear-list clearfix nomargin">
-					<li>
+					<li class="filter-code">
 						<div class="portfolio-content">
 							<img alt="portfolio image" src="images/code.jpg" />
 							<div class="portfolio-hidden-content overlay">
@@ -269,7 +278,7 @@
 							</div>
 						</div>
 					</li>
-					<li>
+					<li class="filter-ui">
 						<div class="portfolio-content">
 							<img alt="portfolio image" src="images/ui.jpg" />
 							<div class="portfolio-hidden-content overlay">
@@ -284,7 +293,7 @@
 							</div>
 						</div>
 					</li>
-					<li>
+					<li class="filter-ui">
 						<div class="portfolio-content">
 							<img alt="portfolio image" src="images/ui.jpg" />
 							<div class="portfolio-hidden-content overlay">
@@ -299,7 +308,7 @@
 							</div>
 						</div>
 					</li>
-					<li>
+					<li class="filter-code">
 						<div class="portfolio-content">
 							<img alt="portfolio image" src="images/code.jpg" />
 							<div class="portfolio-hidden-content overlay">
@@ -424,6 +433,7 @@
 	
 	<!-- scripts section -->
 	<script src="js/jquery-2.2.0.min.js"></script>
+	<script src="js/isotope.pkgd.min.js"></script>
 	<script src="js/main.js"></script>
 	
 </body>

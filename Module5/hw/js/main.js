@@ -27,11 +27,39 @@ var cvAnimationUtils = {
 
 /* start spinner animation for education list which should last for 3s  */
 $(function() {
-	var $_educationListItem = $('.education-list');
+	var $_educationList = $('.education-list');
 	
-	cvAnimationUtils.startRotateAnimationForElement($_educationListItem);
+	cvAnimationUtils.startRotateAnimationForElement($_educationList);
 	
 	setTimeout(function() {
-		cvAnimationUtils.stopRotateAnimationForElement($_educationListItem);
+		cvAnimationUtils.stopRotateAnimationForElement($_educationList);
 	}, 3000);
+});
+
+
+/* init portfolio filtering using isotope plugin */
+$(function() {
+	var $_portfolioList = $('.portfolio-list');
+    var $_portfolioNavigationItems = $('.portfolio-nav li');
+
+    $_portfolioNavigationItems.on('click', function() {
+        $_portfolioNavigationItems.removeClass('active');
+        $(this).addClass('active');
+
+        $_portfolioList.isotope({
+            itemSelector: 'li'
+        });
+
+        var filterCategory = $(this).data('filter');
+
+        $_portfolioList.isotope({
+            filter: filterCategory,
+            animationOptions: {
+                duration: 1000,
+                easing: 'easeOutQuart',
+                queue: false
+            }
+        });
+
+	});
 });
